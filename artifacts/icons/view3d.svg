@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64">
+  <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="5" ry="5" fill="#F2FAFC" stroke="#B5DCE5" stroke-width="1"/>
+  <!-- 3D Isometric Cube -->
+  <polygon points="16,7 25,12 25,22 16,27 7,22 7,12" fill="none" stroke="#1466B8" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="16" y1="17" x2="16" y2="27" stroke="#1466B8" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="16" y1="17" x2="7" y2="12" stroke="#1466B8" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="16" y1="17" x2="25" y2="12" stroke="#1466B8" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

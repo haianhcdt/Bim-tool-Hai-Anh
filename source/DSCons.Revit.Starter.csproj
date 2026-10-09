@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="Generated\StudentBranding.props" Condition="Exists('Generated\StudentBranding.props')" />
+  <PropertyGroup>
+    <TargetFramework Condition="'$(RevitTargetFramework)' != ''">$(RevitTargetFramework)</TargetFramework>
+    <!-- A framework fallback keeps MSBuild evaluation readable, but no Revit
+         version is selected implicitly. Build scripts must pass both the
+         version and matching API paths. -->
+    <TargetFramework Condition="'$(RevitTargetFramework)' == ''">net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>DSCons.Revit.Starter</AssemblyName>
+    <RootNamespace>DSCons.Revit.Starter</RootNamespace>
+    <Version>1.5.1</Version>
+    <DefineConstants>$(DefineConstants);REVIT$(RevitVersion)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="DSCons.Revit.Starter.Core\DSCons.Revit.Starter.Core.csproj" />
+    <Reference Include="RevitAPI">
+      <HintPath>$(RevitApiPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>$(RevitApiUiPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DSCons.Revit.Starter.Core\**\*.cs" />
+    <Compile Remove="DSCons.Revit.Starter.Core.Tests\**\*.cs" />
+    <Compile Remove="DSCons.Revit.HotReloadHost\**\*.cs" />
+    <EmbeddedResource Remove="DSCons.Revit.Starter.Core\**\*" />
+    <EmbeddedResource Remove="DSCons.Revit.Starter.Core.Tests\**\*" />
+    <EmbeddedResource Remove="DSCons.Revit.HotReloadHost\**\*" />
+    <None Remove="DSCons.Revit.Starter.Core\**\*" />
+    <None Remove="DSCons.Revit.Starter.Core.Tests\**\*" />
+    <None Remove="DSCons.Revit.HotReloadHost\**\*" />
+  </ItemGroup>
+  <Target Name="ValidateRevitBuildInputs" BeforeTargets="CoreCompile">
+    <Error Condition="!Exists('Generated\StudentBranding.props')" Text="Starter has not been personalized. Run scripts\personalize-starter.ps1 with all branding fields and -ConfirmPersonalize before building." />
+    <Error Condition="!Exists('Generated\StudentBranding.g.cs')" Text="Generated branding C# is missing. Re-run scripts\personalize-starter.ps1 with -ConfirmPersonalize before building." />
+    <Error Condition="'$(RevitVersion)' == ''" Text="RevitVersion is required. Run scripts\build.ps1 -RevitVersion &lt;2019-2027&gt;." />
+    <Error Condition="'$(RevitTargetFramework)' == ''" Text="RevitTargetFramework is required. Select a profile and pass its TFM (net47, net48, net8.0-windows or net10.0-windows)." />
+    <Error Condition="'$(RevitVersion)' != '2019' and '$(RevitVersion)' != '2020' and '$(RevitVersion)' != '2021' and '$(RevitVersion)' != '2022' and '$(RevitVersion)' != '2023' and '$(RevitVersion)' != '2024' and '$(RevitVersion)' != '2025' and '$(RevitVersion)' != '2026' and '$(RevitVersion)' != '2027'" Text="Unsupported RevitVersion '$(RevitVersion)'. Supported values are 2019-2027." />
+    <Error Condition="'$(RevitApiPath)' == '' or !Exists('$(RevitApiPath)')" Text="RevitApiPath is missing. Select a detected Revit version and pass its RevitAPI.dll path." />
+    <Error Condition="'$(RevitApiUiPath)' == '' or !Exists('$(RevitApiUiPath)')" Text="RevitApiUiPath is missing. Select a detected Revit version and pass its RevitAPIUI.dll path." />
+  </Target>
+</Project>

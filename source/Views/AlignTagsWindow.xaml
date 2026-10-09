@@ -1,0 +1,110 @@
+﻿<Window x:Class="DSCons.Revit.Starter.Views.AlignTagsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BIM TOOL — Căn chỉnh thẳng hàng Thẻ ghi chú"
+        Width="680"
+        Height="540"
+        MinWidth="600"
+        MinHeight="460"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="White"
+        FontFamily="Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="58" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{DynamicResource AccentBrush}" Padding="20,12">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="BIM TOOL | REVIT MEP ANNOTATION"
+                           Foreground="{DynamicResource AccentForegroundBrush}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Opacity="0.85" />
+                <TextBlock Text="Căn Chỉnh Thẳng Hàng Thẻ Ghi Chú (Align Tags)"
+                           Foreground="{DynamicResource AccentForegroundBrush}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+        </Border>
+
+        <!-- Main Body -->
+        <Grid Grid.Row="1" Margin="20,14,20,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Alignment Options -->
+            <Border Grid.Row="0" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Padding="14,10" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Phương căn chỉnh:" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,6" />
+                        <RadioButton Content="Căn ngang (Cùng tọa độ Y)" IsChecked="{Binding IsHorizontal, Mode=TwoWay}" Margin="0,0,0,4" />
+                        <RadioButton Content="Căn dọc (Cùng tọa độ X)" IsChecked="{Binding IsVertical, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Mốc tham chiếu:" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,6" />
+                        <RadioButton Content="Theo Tag đầu tiên chọn" IsChecked="{Binding UseFirstSelected, Mode=TwoWay}" Margin="0,0,0,4" />
+                        <RadioButton Content="Theo vị trí trung bình" IsChecked="{Binding UseAverage, Mode=TwoWay}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Summary Text -->
+            <TextBlock Grid.Row="1" Text="{Binding SummaryText}" FontWeight="SemiBold" Foreground="#0F172A" Margin="2,0,0,6" />
+
+            <!-- Preview DataGrid -->
+            <Border Grid.Row="2" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" ClipToBounds="True">
+                <DataGrid ItemsSource="{Binding PreviewItems}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          HorizontalGridLinesBrush="#EDF2F7"
+                          RowHeight="28"
+                          Background="White"
+                          BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID Tag" Binding="{Binding ElementId}" Width="85" />
+                        <DataGridTextColumn Header="Loại nhãn" Binding="{Binding TagName}" Width="120" />
+                        <DataGridTextColumn Header="Vị trí hiện tại" Binding="{Binding CurrentPositionText}" Width="140" />
+                        <DataGridTextColumn Header="Vị trí sau khi gióng" Binding="{Binding NewPositionText}" Width="140" />
+                        <DataGridTextColumn Header="Độ lệch Δ" Binding="{Binding DeltaText}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+
+        <!-- Footer Bar -->
+        <Border Grid.Row="2" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Padding="20,10">
+            <DockPanel LastChildFill="False">
+                <Button DockPanel.Dock="Right"
+                        Style="{DynamicResource PrimaryButton}"
+                        Command="{Binding AlignCommand}"
+                        Content="{Binding PrimaryActionText}"
+                        Padding="18,6"
+                        Margin="10,0,0,0" />
+                <Button DockPanel.Dock="Right"
+                        Command="{Binding CancelCommand}"
+                        IsCancel="True"
+                        Content="Hủy / Đóng"
+                        Padding="16,6" />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

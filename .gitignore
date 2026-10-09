@@ -1,0 +1,51 @@
+﻿# Build & Binaries
+[Bb]in/
+[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.nuget.cache
+project.assets.json
+project.nuget.cache
+
+# Revit & CAD Models
+*.rvt
+*.rfa
+*.00*.rvt
+*.00*.rfa
+*.dwg
+*.bak
+*.tmp
+inputs/models-copy/**
+!inputs/README.md
+
+# Visual Studio & IDE
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs & Secrets
+*.log
+*.token
+*.key
+*.secret
+*.pfx
+*.pem
+.env*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Artifacts
+artifacts/*
+!artifacts/README.md
+!artifacts/icons/
+!artifacts/icons/**

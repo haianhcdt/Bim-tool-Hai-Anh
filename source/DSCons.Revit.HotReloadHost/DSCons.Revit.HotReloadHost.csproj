@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Generated/StudentBranding.props" Condition="Exists('../Generated/StudentBranding.props')" />
+  <PropertyGroup>
+    <TargetFramework Condition="'$(RevitTargetFramework)' != ''">$(RevitTargetFramework)</TargetFramework>
+    <TargetFramework Condition="'$(RevitTargetFramework)' == ''">net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>DSCons.Revit.HotReloadHost</AssemblyName>
+    <RootNamespace>DSCons.Revit.HotReloadHost</RootNamespace>
+    <!-- Keep the thin Host next to the product DLL it reloads. -->
+    <BaseOutputPath>../bin/</BaseOutputPath>
+    <DefineConstants>$(DefineConstants);REVIT$(RevitVersion)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Generated/HotReloadBranding.g.cs" Link="Generated/HotReloadBranding.g.cs" />
+    <Compile Include="../Generated/StudentBranding.g.cs" Link="Generated/StudentBranding.g.cs" />
+    <Compile Include="../Infrastructure/UiBranding.cs" Link="Infrastructure/UiBranding.cs" />
+    <Compile Include="../Infrastructure/SemanticRibbonIconFactory.cs" Link="Infrastructure/SemanticRibbonIconFactory.cs" />
+    <Reference Include="RevitAPI">
+      <HintPath>$(RevitApiPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>$(RevitApiUiPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <Target Name="ValidateHotReloadBuildInputs" BeforeTargets="CoreCompile">
+    <Error Condition="!Exists('../Generated/HotReloadBranding.g.cs')" Text="Hot Reload branding is missing. Run scripts\personalize-starter.ps1 with all branding fields and -ConfirmPersonalize before building." />
+    <Error Condition="'$(RevitVersion)' == ''" Text="RevitVersion is required. Run scripts\build.ps1 -RevitVersion &lt;2019-2027&gt;." />
+    <Error Condition="'$(RevitTargetFramework)' == ''" Text="RevitTargetFramework is required. Select a profile and pass its TFM." />
+    <Error Condition="'$(RevitApiPath)' == '' or !Exists('$(RevitApiPath)')" Text="RevitApiPath is missing. Select a detected Revit version and pass its RevitAPI.dll path." />
+    <Error Condition="'$(RevitApiUiPath)' == '' or !Exists('$(RevitApiUiPath)')" Text="RevitApiUiPath is missing. Select a detected Revit version and pass its RevitAPIUI.dll path." />
+  </Target>
+</Project>

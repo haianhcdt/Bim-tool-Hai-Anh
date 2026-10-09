@@ -1,0 +1,209 @@
+<Window x:Class="DSCons.Revit.Starter.Views.AboutMeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding WindowTitle}"
+        Width="760"
+        Height="580"
+        MinWidth="640"
+        MinHeight="500"
+        MaxHeight="820"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="White"
+        FontFamily="Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="164" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="62" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{DynamicResource AccentBrush}" Padding="28,22">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="88" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="DSCONS | REVIT MEP TOOLS"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Opacity="0.86" />
+                    <TextBlock Text="{Binding StudentName}"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="27"
+                               FontWeight="SemiBold"
+                               Margin="0,8,0,2"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding RoleLine}"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               Opacity="0.90"
+                               FontSize="13"
+                               TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+                <Border Grid.Column="1"
+                        Width="76"
+                        Height="76"
+                        CornerRadius="38"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="{DynamicResource AccentDarkBrush}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Initials}"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   FontSize="23"
+                                   FontWeight="Bold" />
+                        <TextBlock Text="BIM"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   FontSize="9"
+                                   FontWeight="SemiBold"
+                                   Opacity="0.90" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Grid Margin="28,22,28,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.90*" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="1.10*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="HỒ SƠ CHUYÊN MÔN"
+                               Foreground="{DynamicResource AccentDarkBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding ProfileDescription}"
+                               Margin="0,12,0,18"
+                               Foreground="#405366"
+                               FontSize="14"
+                               LineHeight="22"
+                               TextWrapping="Wrap" />
+
+                    <Border Background="{DynamicResource AccentLightBrush}"
+                            CornerRadius="7"
+                            Padding="14,12">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Company}"
+                                       Foreground="{DynamicResource TextBrush}"
+                                       FontWeight="SemiBold"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding CompanySubtitle}"
+                                       Margin="0,3,0,0"
+                                       Foreground="#526273"
+                                       FontSize="12"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="CHUYÊN MÔN"
+                               Margin="0,20,0,10"
+                               Foreground="#526273"
+                               FontSize="11"
+                               FontWeight="SemiBold" />
+                    <ItemsControl ItemsSource="{Binding SpecialtyTags}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#F1F6F8"
+                                        CornerRadius="4"
+                                        Margin="0,0,8,8"
+                                        Padding="9,5">
+                                    <TextBlock Text="{Binding}" Foreground="#405366" FontSize="12" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="LIÊN HỆ"
+                               Foreground="{DynamicResource AccentDarkBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold" />
+                    <ItemsControl ItemsSource="{Binding ContactDetails}" Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="7"
+                                        Background="White"
+                                        Margin="0,0,0,8"
+                                        Padding="12,9">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="94" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Label}"
+                                                   Foreground="#667789"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Value}"
+                                                   ToolTip="{Binding Value}"
+                                                   Foreground="{DynamicResource TextBrush}"
+                                                   FontSize="12"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="KẾT NỐI"
+                               Margin="0,7,0,10"
+                               Foreground="#526273"
+                               FontSize="11"
+                               FontWeight="SemiBold" />
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="42" Height="36" Margin="0,0,9,0" CornerRadius="7" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" ToolTip="Email liên hệ nằm ở phần phía trên.">
+                            <TextBlock Text="@" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource AccentDarkBrush}" FontWeight="SemiBold" />
+                        </Border>
+                        <Border Width="42" Height="36" Margin="0,0,9,0" CornerRadius="7" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" ToolTip="Có thể bổ sung liên kết cá nhân khi cần.">
+                            <TextBlock Text="in" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource AccentDarkBrush}" FontWeight="Bold" />
+                        </Border>
+                        <Border Width="42" Height="36" Margin="0,0,9,0" CornerRadius="7" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" ToolTip="Có thể bổ sung liên kết cá nhân khi cần.">
+                            <TextBlock Text="⌂" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource AccentDarkBrush}" FontWeight="SemiBold" />
+                        </Border>
+                        <Border Width="42" Height="36" CornerRadius="7" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" ToolTip="Có thể bổ sung liên kết cá nhân khi cần.">
+                            <TextBlock Text="↗" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource AccentDarkBrush}" FontWeight="SemiBold" />
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="28,13">
+            <DockPanel LastChildFill="False">
+                <TextBlock DockPanel.Dock="Left"
+                           VerticalAlignment="Center"
+                           Text="{Binding FooterText}"
+                           Foreground="#667789"
+                           FontSize="12"
+                           TextTrimming="CharacterEllipsis" />
+                <Button DockPanel.Dock="Right"
+                        Style="{DynamicResource PrimaryButton}"
+                        Content="Đóng"
+                        MinWidth="88"
+                        IsCancel="True" />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

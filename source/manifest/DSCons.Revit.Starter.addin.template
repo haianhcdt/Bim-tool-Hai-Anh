@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>__STUDENT_NAME__ - Revit MEP Tools</Name>
+    <Assembly>__ASSEMBLY_PATH__</Assembly>
+    <AddInId>__STUDENT_ADDIN_ID__</AddInId>
+    <FullClassName>__FULL_CLASS_NAME__</FullClassName>
+    <VendorId>__STUDENT_VENDOR_ID__</VendorId>
+    <VendorDescription>__STUDENT_NAME__ - Giảng viên BIM / Kỹ sư Revit API</VendorDescription>
+  </AddIn>
+</RevitAddIns>
