@@ -74,3 +74,12 @@
 - **Kiểm thử tự động:** Bổ sung 3 unit tests mới trong TagAlignmentTests.cs. Toàn bộ 20/20 unit tests PASS (0 lỗi).
 - **Biên dịch Revit 2019 (net47):** DSCons.Revit.Starter.dll build thành công 0 Error, 0 Warning. Sẵn sàng nạp nóng qua Hot Reload vào Revit.
 - **Tài liệu:** Đã cập nhật BUG_REPORT.md sang trạng thái RESOLVED.
+
+#### Khắc phục lỗi runtime MethodNotFound khi nạp nóng
+- **Hiện tượng:** Khi học viên bấm Align Tags trên Revit 2019, Revit báo lỗi: Method not found: TagAlignmentCalculator.CalculateAlignment. 
+- **Nguyên nhân:** Do Revit đang chạy đã nạp assembly Starter.Core.dll từ trước (chỉ có chữ ký 3 tham số). Khi đổi chữ ký thành 4 tham số, CLR không nạp đè assembly cùng identity trong AppDomain nên sinh lỗi MissingMethodException.
+- **Xử lý:**
+  1. Tạo TagAlignmentEngine.cs nội bộ bên trong assembly DSCons.Revit.Starter.dll để nạp nóng 100% độc lập, không phụ thuộc vào assembly Core cũ trong bộ nhớ Revit.
+  2. Bổ sung overload 3 tham số tương thích ngược trong TagAlignmentCalculator.cs (Core).
+  3. Build lại DSCons.Revit.Starter.dll đạt 0 Error, 0 Warning.
+- **Kiểm thử:** 20/20 Unit Tests PASS. File DLL mới nạp tức thì qua Hot Reload.

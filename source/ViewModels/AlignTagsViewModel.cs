@@ -98,7 +98,7 @@ public sealed class AlignTagsViewModel : ViewModelBase
         var direction = IsHorizontal ? TagAlignmentDirection.Horizontal : TagAlignmentDirection.Vertical;
         var reference = UseFirstSelected ? TagAlignmentReference.FirstSelected : TagAlignmentReference.Average;
 
-        var computed = TagAlignmentCalculator.CalculateAlignment(_rawItems, direction, reference, minSpacing: 2.5);
+        var computed = TagAlignmentEngine.CalculateAlignment(_rawItems, direction, reference, minSpacing: 2.5);
 
         PreviewItems.Clear();
         foreach (var item in computed)

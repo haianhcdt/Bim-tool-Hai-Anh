@@ -1,60 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DSCons.Revit.Starter.Core.BatchTag;
 
-namespace DSCons.Revit.Starter.Core.BatchTag;
+namespace DSCons.Revit.Starter.ViewModels;
 
-public enum TagAlignmentDirection
+internal static class TagAlignmentEngine
 {
-    Horizontal, // Căn thẳng hàng ngang (Cùng tọa độ Y)
-    Vertical    // Căn thẳng hàng dọc (Cùng tọa độ X)
-}
-
-public enum TagAlignmentReference
-{
-    FirstSelected, // Theo vị trí Tag đầu tiên chọn
-    Average        // Theo vị trí trung bình của các Tag
-}
-
-public sealed class TagPositionItem
-{
-    public long ElementId { get; set; }
-    public string TagName { get; set; } = string.Empty;
-    public double CurrentX { get; set; }
-    public double CurrentY { get; set; }
-    public double CurrentZ { get; set; }
-    public double NewX { get; set; }
-    public double NewY { get; set; }
-    public double NewZ { get; set; }
-
-    public double Delta => Math.Sqrt(Math.Pow(NewX - CurrentX, 2) + Math.Pow(NewY - CurrentY, 2));
-
-    public string CurrentPositionText => $"X: {CurrentX:F2}, Y: {CurrentY:F2}";
-    public string NewPositionText => $"X: {NewX:F2}, Y: {NewY:F2}";
-    public string DeltaText => $"{Delta:F3}";
-}
-
-public static class TagAlignmentCalculator
-{
-    /// <summary>
-    /// Overload tương thích ngược 3 tham số.
-    /// </summary>
-    public static List<TagPositionItem> CalculateAlignment(
-        IEnumerable<TagPositionItem> items,
-        TagAlignmentDirection direction,
-        TagAlignmentReference reference)
-    {
-        return CalculateAlignment(items, direction, reference, 0.0);
-    }
-
-    /// <summary>
-    /// Overload 4 tham số hỗ trợ tự động giãn cách minSpacing chống trùng đè tag.
-    /// </summary>
     public static List<TagPositionItem> CalculateAlignment(
         IEnumerable<TagPositionItem> items,
         TagAlignmentDirection direction,
         TagAlignmentReference reference,
-        double minSpacing)
+        double minSpacing = 0.0)
     {
         if (items == null) return new List<TagPositionItem>();
         var list = items.ToList();
