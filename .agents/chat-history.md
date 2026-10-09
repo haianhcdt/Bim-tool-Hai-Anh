@@ -61,3 +61,16 @@
   - `cdb6bf8`: `docs: cap nhat chat-history.md ve trang thai day kho GitHub`
 - **Kết quả Push:** Đã đẩy thành công 100% lên nhánh `main` của kho riêng tư trên GitHub. Nhánh cục bộ đồng bộ hoàn toàn với `origin/main` (`Up to date`).
 - **Trạng thái mã nguồn:** Bộ 4 công cụ (Working View, Batch Tag, Align Tags, About Me) và tài liệu `.agents/` hoàn chỉnh.
+
+### 2026-10-09 - Ngày 5: Điều tra lỗi trùng đè tag (Align Tags Overlap)
+- **Điểm lưu Git:** Đã tạo annotated tag checkpoint-ngay-5-pre-fix và đẩy lên GitHub.
+- **Khảo sát MCP (Chỉ-đọc):** Active View Typical Room WSHP (709705), Document HA_MODEL_STUDY, 2 thẻ tag đang chọn 877737 và 877740 (Category Duct Tags, Class IndependentTag).
+- **Tài liệu BUG_REPORT.md:** Đã lập theo mẫu chuẩn Bộ Kit, phân tách rõ nguyên nhân có căn cứ trong TagAlignmentCalculator.cs và suy luận kỹ thuật, đề xuất Phương án A (giãn cách tự động minSpacing), chuẩn bị 2 ca kiểm thử (ca lỗi và ca bình thường).
+- **Trạng thái:** Dừng chờ học viên phê duyệt trước khi sửa mã nguồn.
+
+#### Kết quả xử lý Ngày 5: Sửa lỗi trùng đè tag khi căn chỉnh
+- **Học viên:** Xác nhận thực hiện sửa lỗi.
+- **Sửa mã nguồn lõi:** Cập nhật TagAlignmentCalculator.cs hỗ trợ minSpacing và thuật toán phân tách va chạm chống đè chữ; AlignTagsViewModel.cs áp dụng mặc định minSpacing: 2.5 feet.
+- **Kiểm thử tự động:** Bổ sung 3 unit tests mới trong TagAlignmentTests.cs. Toàn bộ 20/20 unit tests PASS (0 lỗi).
+- **Biên dịch Revit 2019 (net47):** DSCons.Revit.Starter.dll build thành công 0 Error, 0 Warning. Sẵn sàng nạp nóng qua Hot Reload vào Revit.
+- **Tài liệu:** Đã cập nhật BUG_REPORT.md sang trạng thái RESOLVED.
