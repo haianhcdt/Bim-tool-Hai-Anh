@@ -49,3 +49,6 @@ artifacts/*
 !artifacts/README.md
 !artifacts/icons/
 !artifacts/icons/**
+!artifacts/installer/
+!artifacts/installer/README.md
+

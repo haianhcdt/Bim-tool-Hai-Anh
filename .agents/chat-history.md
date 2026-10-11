@@ -83,3 +83,26 @@
   2. Bổ sung overload 3 tham số tương thích ngược trong TagAlignmentCalculator.cs (Core).
   3. Build lại DSCons.Revit.Starter.dll đạt 0 Error, 0 Warning.
 - **Kiểm thử:** 20/20 Unit Tests PASS. File DLL mới nạp tức thì qua Hot Reload.
+
+### 2026-10-11 - Ngay 6: Kiem ke da phien ban va Dong goi bo cai Inno Setup (.exe)
+
+#### 1. Kiem ke va Kiem tra moi truong da phien ban
+- **Phien ban chinh da chay that:** Autodesk Revit 2019 (`net47`).
+- **Danh sach phien ban kiem ke tren may:** Revit 2019, 2021, 2022, 2023, 2024, 2026 (cac ban 2020, 2025, 2027 chua cai tren may).
+- **Ket qua dotnet build Release va Unit Test theo resolve-profile.ps1:**
+  - `Revit 2019` (`net47`): Build thanh cong (0 Error, 0 Warning), Unit Tests 20/20 PASS (100%), artifacts tai `artifacts/Revit2019/`.
+  - `Revit 2021` (`net48`): Build thanh cong (0 Error, 0 Warning), Unit Tests 20/20 PASS (100%), artifacts tai `artifacts/Revit2021/`.
+  - `Revit 2022` (`net48`): Build thanh cong (0 Error, 1 Warning ve TaggedLocalElementId obsolete), Unit Tests 20/20 PASS (100%), artifacts tai `artifacts/Revit2022/`.
+  - `Revit 2023, 2024, 2026`: Build loi `CS1061` do Autodesk loai bo thuoc tinh `TaggedLocalElementId` tren `IndependentTag` tu Revit 2023+ (breaking change). Da bao cao chi tiet nguon chinh thuc va dung cho hoc vien.
+
+#### 2. Dong goi bo cai Inno Setup (.exe)
+- **Cong cu dong goi:** Da cai dat Inno Setup 6.7.3 tu nguon chinh thuc qua WinGet sau khi hoc vien xac nhan.
+- **Kich ban Inno Setup:** Tao `scripts/installer.iss` voi day du tinh nang:
+  - Tu do tim cac phien ban Revit co tren may nguoi dung (Revit 2019, 2021, 2022).
+  - Hien thi ro rang danh sach phien ban tim thay tren trang Ready memo truoc khi cai.
+  - Chi sao chep dung ban build va file `.addin` tuong ung vao `%ProgramData%\Autodesk\Revit\Addins\<Year>\`.
+  - Su dung ma dinh danh add-in rieng cua hoc vien (`A24532C5-ACDE-4946-8414-D8EE406FA589`).
+  - Dang ky muc go cai dat sach se trong Windows Settings / Control Panel (Uninstall).
+  - Loai tru 100% cac file cam: khong chua model `.rvt`, khong chua `RevitAPI.dll`, khong chua HotReloadHost hay ma nguon thau.
+- **Ket qua bien dich:** Bien dich thanh cong bang `ISCC.exe` xuat file `artifacts/installer/BIM-Tool-WorkingView-Setup-1.0.0.exe`.
+- **Ma bam xac thuc SHA-256:** `70E8B761E48349AD894A8B417F657B3E47EB68C1D5E5FA56317E0D516E53CA80`.
