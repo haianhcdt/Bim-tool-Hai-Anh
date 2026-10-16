@@ -140,4 +140,4 @@
   5. **Đóng gói Installer (.exe):**
      - Cập nhật kịch bản scripts/installer.iss (ReadyMemo phản ánh đúng 5 nút Ribbon).
      - Biên dịch lại Inno Setup xuất file rtifacts/installer/BIM-Tool-WorkingView-Setup-1.2.0.exe (SHA-256:  0A2A0679B3DF7E22346B034ED35E0026353F5BEC00A569DD849DC57FBCD197C, 2.148.920 bytes).
-     - Cập nhật bảng kiểm định SHA-256 trong rtifacts/installer/README.md và README_CAI_DAT.md.
+     - Cập nhật bảng kiểm định SHA-256 trong rtifacts/installer/README.md và README_CAI_DAT.md.- **Đẩy lên GitHub:** Đã đẩy thành công commit 8c366dd và tag 1.2.0 lên remote origin (https://github.com/haianhcdt/Bim-tool-Hai-Anh.git). Nhánh main hoàn toàn đồng bộ với remote.
