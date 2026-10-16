@@ -1,4 +1,4 @@
-﻿using Autodesk.Revit.UI;
+using Autodesk.Revit.UI;
 using DSCons.Revit.Starter.Infrastructure;
 
 namespace DSCons.Revit.Starter;
@@ -11,7 +11,7 @@ public class App : IExternalApplication
         try { application.CreateRibbonTab(tabName); }
         catch { /* The tab already exists in this Revit session. */ }
 
-        var panel = application.CreateRibbonPanel(tabName, "Revit API Kit");
+        var panel = application.CreateRibbonPanel(tabName, "BIM TOOL");
 
         var workingViewButton = new PushButtonData(
             "DSConsWorkingView",
@@ -46,6 +46,17 @@ public class App : IExternalApplication
             LargeImage = SemanticRibbonIconFactory.Create("align", true)
         };
 
+        var cleanupButton = new PushButtonData(
+            "DSConsModelCleanup",
+            "Clean\nFile",
+            typeof(App).Assembly.Location,
+            "DSCons.Revit.Starter.Commands.ModelCleanupCommand")
+        {
+            ToolTip = "Dọn dẹp file bàn giao & Kiểm toán mô hình: Xóa CAD/Revit links, kiểm tra trùng Mark, xuất báo cáo Warnings, triệt tiêu warnings và Purge unused.",
+            Image = SemanticRibbonIconFactory.Create("cleanup", false),
+            LargeImage = SemanticRibbonIconFactory.Create("cleanup", true)
+        };
+
         var aboutButton = new PushButtonData(
             "DSConsAboutMe",
             "About\nMe",
@@ -60,6 +71,7 @@ public class App : IExternalApplication
         panel.AddItem(workingViewButton);
         panel.AddItem(batchTagButton);
         panel.AddItem(alignTagsButton);
+        panel.AddItem(cleanupButton);
         panel.AddItem(aboutButton);
 
         return Result.Succeeded;

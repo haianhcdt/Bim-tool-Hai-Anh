@@ -1,0 +1,351 @@
+﻿<Window x:Class="DSCons.Revit.Starter.Views.ModelCleanupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding WindowTitle}"
+        Width="700"
+        Height="740"
+        MinWidth="620"
+        MinHeight="600"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#F8FAFC"
+        FontFamily="Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- 0: Banner Header -->
+            <RowDefinition Height="90" />
+            <!-- 1: Body ScrollViewer -->
+            <RowDefinition Height="*" />
+            <!-- 2: Status Bar & Footer -->
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <!-- 0: HEADER BANNER -->
+        <Border Grid.Row="0" Background="{DynamicResource AccentBrush}" Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="DSCONS · MEP OPTIMIZATION &amp; DELIVERY"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Opacity="0.85" />
+                    <TextBlock Text="Bộ Dọn Dẹp Mô Hình"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="19"
+                               FontWeight="Bold"
+                               Margin="0,2,0,1" />
+                    <TextBlock Text="Purge Unused · Remove CAD/Revit Links · Suppress Warnings · Clean Imported Categories"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               Opacity="0.90"
+                               FontSize="11" />
+                </StackPanel>
+
+                <!-- BRANDING BADGE -->
+                <Border Grid.Column="1"
+                        Background="{DynamicResource AccentDarkBrush}"
+                        CornerRadius="6"
+                        Padding="12,6"
+                        VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding StudentName}"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   FontWeight="SemiBold"
+                                   FontSize="12"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding Company}"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   FontSize="11"
+                                   Opacity="0.85"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 1: BODY SCROLLVIEWER -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="18,12">
+            <StackPanel>
+                <!-- TOP BAR: THÔNG TIN DỰ ÁN & QUÉT LẠI -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14,10"
+                        Margin="0,0,0,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Mô hình hiện hành: " FontWeight="SemiBold" Foreground="#475569" FontSize="12" />
+                                <TextBlock Text="{Binding DocumentTitle}" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" FontSize="12" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding FileSizeText, StringFormat='Dung lượng file trên đĩa: {0}'}"
+                                       Foreground="#64748B" FontSize="11" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="🔄 Quét lại mô hình"
+                                Command="{Binding RefreshAllCommand}"
+                                Padding="12,6"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- CARD 1: REMOVE CAD LINKS -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14,12"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="1. FILE CAD LINK (MANAGE LINKS)" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="{Binding CadLinkSummary}" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,3,0,0" />
+                            <TextBlock Text="Gỡ bỏ liên kết CAD ngoài đĩa, tránh lỗi 'Link Not Found' khi gửi file cho đối tác."
+                                       FontSize="11" Foreground="#64748B" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="🗑️ Xóa CAD Links"
+                                Command="{Binding DeleteCadLinksCommand}"
+                                IsEnabled="{Binding CanDeleteCadLinks}"
+                                Padding="12,6"
+                                MinHeight="32"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- CARD 2: REMOVE REVIT LINKS -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14,12"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="2. FILE REVIT LINK (EXTERNAL REFS)" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="{Binding RevitLinkSummary}" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,3,0,0" />
+                            <TextBlock Text="Gỡ bỏ toàn bộ liên kết mô hình Kiến trúc/Kết cấu/Cảnh quan để tạo file MEP độc lập."
+                                       FontSize="11" Foreground="#64748B" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="🗑️ Xóa Revit Links"
+                                Command="{Binding DeleteRevitLinksCommand}"
+                                IsEnabled="{Binding CanDeleteRevitLinks}"
+                                Padding="12,6"
+                                MinHeight="32"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- CARD 3: REMOVE CAD IMPORTED CATEGORIES -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14,12"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="3. CAD IMPORT &amp; IMPORTED CATEGORIES" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="{Binding ImportedCadSummary}" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,3,0,0" />
+                            <TextBlock Text="Xóa các bản vẽ CAD chèn trực tiếp và làm sạch triệt để danh mục Imported Categories."
+                                       FontSize="11" Foreground="#64748B" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="🗑️ Dọn CAD Import"
+                                Command="{Binding DeleteImportedCadCommand}"
+                                IsEnabled="{Binding CanDeleteImportedCad}"
+                                Padding="12,6"
+                                MinHeight="32"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- CARD 4: KIỂM TOÁN & TRIỆT TIÊU CẢNH BÁO (WARNINGS AUDIT) -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14,12"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="4. BỘ LỌC, KIỂM TOÁN &amp; TRIỆT TIÊU CẢNH BÁO (WARNINGS AUDIT)" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="{Binding WarningSummary}" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,3,0,0" />
+                            <TextBlock Text="Bảo toàn 100% ống, phụ kiện, thiết bị và hệ thống MEP trong mô hình."
+                                       FontSize="11" Foreground="#15803D" FontWeight="SemiBold" Margin="0,2,0,0" />
+                            <TextBlock Text="{Binding WarningSuppressorStatusText}" FontSize="10" Foreground="#64748B" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Content="🔍 Bảng Trùng Mark"
+                                    Command="{Binding OpenDuplicateMarkAuditCommand}"
+                                    Padding="8,6"
+                                    MinHeight="34"
+                                    FontSize="11"
+                                    FontWeight="SemiBold"
+                                    Margin="0,0,5,0"
+                                    ToolTip="Mở bảng thống kê chi tiết toàn bộ các cấu kiện đang trùng thông số Mark trong mô hình." />
+                            <Button Content="📄 Xuất Báo Cáo"
+                                    Command="{Binding ExportWarningsReportCommand}"
+                                    Padding="8,6"
+                                    MinHeight="34"
+                                    FontSize="11"
+                                    FontWeight="SemiBold"
+                                    Margin="0,0,5,0"
+                                    ToolTip="Xuất toàn bộ danh sách cảnh báo chi tiết theo từng Element ID ra file text và mở trong Notepad." />
+                            <Button Content="🛡️ Mờ nút Warnings"
+                                    Command="{Binding ResolveAllWarningsCommand}"
+                                    IsEnabled="{Binding CanResolveWarnings}"
+                                    Style="{DynamicResource PrimaryButton}"
+                                    Padding="8,6"
+                                    MinHeight="34"
+                                    FontSize="11"
+                                    FontWeight="Bold"
+                                    Margin="0,0,5,0"
+                                    ToolTip="Triệt tiêu 100% cảnh báo tính toán MEP và trùng mã Mark, làm mờ icon Warnings trên tab Manage mà không xóa bất kỳ đối tượng nào." />
+                            <Button Content="Ẩn Popup"
+                                    Command="{Binding ToggleWarningSuppressorCommand}"
+                                    Padding="6,6"
+                                    MinHeight="34"
+                                    FontSize="11"
+                                    ToolTip="Bật/Tắt chế độ tự động triệt tiêu popup warning khi vẽ." />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- CARD 5: PURGE UNUSED -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14,12"
+                        Margin="0,0,0,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="5. PURGE FILE ĐỂ GỬI ĐI (CLEAN UNUSED)" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="{Binding PurgeSummary}" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,3,0,0" />
+                            <TextBlock Text="Quét và xóa sạch các Family, ElementType, Material rác không dùng để nén file tối đa."
+                                       FontSize="11" Foreground="#64748B" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Content="⚡ Purge Tự Động"
+                                    Command="{Binding PurgeUnusedCommand}"
+                                    IsEnabled="{Binding CanPurgeUnused}"
+                                    Padding="10,6"
+                                    MinHeight="32"
+                                    FontSize="11"
+                                    FontWeight="SemiBold"
+                                    Margin="0,0,6,0" />
+                            <Button Content="📖 Purge Revit"
+                                    Command="{Binding OpenRevitPurgeCommand}"
+                                    Padding="10,6"
+                                    MinHeight="32"
+                                    FontSize="11"
+                                    ToolTip="Mở hộp thoại Purge Unused mặc định của Revit để kiểm tra trực quan." />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- CARD 6: GÓI DỌN DẸP 1-CLICK TỔNG HỢP -->
+                <Border Background="#F0FDF4"
+                        BorderBrush="#BBF7D0"
+                        BorderThickness="1.5"
+                        CornerRadius="8"
+                        Padding="16,14"
+                        Margin="0,0,0,6">
+                    <StackPanel>
+                        <TextBlock Text="🚀 GÓI DỌN DẸP TOÀN DIỆN ĐỂ GỬI ĐI (1-CLICK)"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Foreground="#166534"
+                                   Margin="0,0,0,8" />
+                        
+                        <WrapPanel Margin="0,0,0,12">
+                            <CheckBox Content="Xóa CAD Links" IsChecked="{Binding IncludeCadLinks}" Margin="0,0,16,6" FontWeight="SemiBold" FontSize="11" />
+                            <CheckBox Content="Xóa Revit Links" IsChecked="{Binding IncludeRevitLinks}" Margin="0,0,16,6" FontWeight="SemiBold" FontSize="11" />
+                            <CheckBox Content="Xóa CAD Import &amp; Categories" IsChecked="{Binding IncludeImportedCad}" Margin="0,0,16,6" FontWeight="SemiBold" FontSize="11" />
+                            <CheckBox Content="Triệt tiêu Cảnh báo &amp; Mờ Warnings" IsChecked="{Binding IncludeWarningsSuppress}" Margin="0,0,16,6" FontWeight="SemiBold" FontSize="11" />
+                            <CheckBox Content="Purge Unused Elements" IsChecked="{Binding IncludePurgeUnused}" Margin="0,0,16,6" FontWeight="SemiBold" FontSize="11" />
+                        </WrapPanel>
+
+                        <Button Content="🚀 BẮT ĐẦU DỌN DẸP TOÀN DIỆN (1-CLICK)"
+                                Command="{Binding ExecuteAllCleanupCommand}"
+                                IsEnabled="{Binding CanExecuteAllCleanup}"
+                                Background="#15803D"
+                                BorderBrush="#166534"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                MinHeight="42"
+                                Cursor="Hand" />
+
+                        <TextBlock Text="* Thao tác được đóng gói an toàn trong Transaction riêng kèm SilentWarningSuppressor. Có thể hoàn tác (Ctrl+Z) bất cứ lúc nào trong Revit."
+                                   FontSize="11"
+                                   Foreground="#15803D"
+                                   Margin="0,8,0,0"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 2: STATUS BAR & FOOTER -->
+        <Border Grid.Row="2" Background="White" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="18,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding StatusMessage}"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           Foreground="#475569"
+                           TextTrimming="CharacterEllipsis" />
+                <Button Grid.Column="1"
+                        Content="Đóng"
+                        Command="{Binding CloseCommand}"
+                        Padding="18,6"
+                        FontSize="11"
+                        VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

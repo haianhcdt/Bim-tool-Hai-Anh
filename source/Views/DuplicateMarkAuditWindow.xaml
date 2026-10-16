@@ -1,0 +1,290 @@
+<Window x:Class="DSCons.Revit.Starter.Views.DuplicateMarkAuditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BIM TOOL · Bảng Thống Kê &amp; Kiểm Tra Trùng Thông Số Mark"
+        Width="960"
+        Height="620"
+        MinWidth="800"
+        MinHeight="500"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#F8FAFC"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <!-- Boolean to Visibility Converter -->
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- 0: Header Banner -->
+            <RowDefinition Height="80" />
+            <!-- 1: KPI Cards & Status Badge -->
+            <RowDefinition Height="Auto" />
+            <!-- 2: Data Table -->
+            <RowDefinition Height="*" />
+            <!-- 3: Action Toolbar & Status Bar -->
+            <RowDefinition Height="56" />
+        </Grid.RowDefinitions>
+
+        <!-- 0: HEADER BANNER -->
+        <Border Grid.Row="0" Background="{DynamicResource AccentBrush}" Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="DSCONS · KIỂM TOÁN CHẤT LƯỢNG MÔ HÌNH (QA/QC)"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Opacity="0.85" />
+                    <TextBlock Text="Bảng Thống Kê &amp; Kiểm Tra Trùng Thông Số Mark"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="0,2,0,1" />
+                    <TextBlock Text="{Binding DocumentTitle, StringFormat='Mô hình: {0}'}"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               Opacity="0.90"
+                               FontSize="11" />
+                </StackPanel>
+
+                <!-- BRANDING BADGE -->
+                <Border Grid.Column="1"
+                        Background="{DynamicResource AccentDarkBrush}"
+                        CornerRadius="6"
+                        Padding="14,6"
+                        VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding StudentName}"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   FontWeight="SemiBold"
+                                   FontSize="12"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding Company}"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   FontSize="11"
+                                   Opacity="0.85"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 1: KPI CARDS & STATUS BADGE -->
+        <StackPanel Grid.Row="1" Margin="16,12,16,8">
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- CARD 1: Tổng quét -->
+                <Border Grid.Column="0" Background="White" BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="0,0,6,0">
+                    <StackPanel>
+                        <TextBlock Text="TỔNG ĐỐI TƯỢNG QUÉT" FontSize="10" FontWeight="Bold" Foreground="#64748B" />
+                        <TextBlock Text="{Binding TotalScannedCount, StringFormat={}{0:N0}}" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,2,0,0" />
+                        <TextBlock Text="Toàn bộ cấu kiện vật lý" FontSize="10" Foreground="#94A3B8" />
+                    </StackPanel>
+                </Border>
+
+                <!-- CARD 2: Có Mark -->
+                <Border Grid.Column="1" Background="White" BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="3,0,3,0">
+                    <StackPanel>
+                        <TextBlock Text="CẤU KIỆN CÓ MÃ MARK" FontSize="10" FontWeight="Bold" Foreground="#64748B" />
+                        <TextBlock Text="{Binding TotalWithMarkCount, StringFormat={}{0:N0}}" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,2,0,0" />
+                        <TextBlock Text="Đã gán tham số Mark khác rỗng" FontSize="10" Foreground="#94A3B8" />
+                    </StackPanel>
+                </Border>
+
+                <!-- CARD 3: Nhóm trùng -->
+                <Border Grid.Column="2" Background="White" BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="3,0,3,0">
+                    <StackPanel>
+                        <TextBlock Text="NHÓM MARK BỊ TRÙNG" FontSize="10" FontWeight="Bold" Foreground="#64748B" />
+                        <TextBlock Text="{Binding DuplicateGroupsCount, StringFormat={}{0:N0}}" FontSize="18" FontWeight="Bold"
+                                   Foreground="{Binding StatusBadgeColor}" Margin="0,2,0,0" />
+                        <TextBlock Text="Các giá trị Mark có &gt; 1 đối tượng" FontSize="10" Foreground="#94A3B8" />
+                    </StackPanel>
+                </Border>
+
+                <!-- CARD 4: Tổng đối tượng trùng -->
+                <Border Grid.Column="3" Background="White" BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="6,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="TỔNG ĐỐI TƯỢNG BỊ TRÙNG" FontSize="10" FontWeight="Bold" Foreground="#64748B" />
+                        <TextBlock Text="{Binding TotalDuplicateElementsCount, StringFormat={}{0:N0}}" FontSize="18" FontWeight="Bold"
+                                   Foreground="{Binding StatusBadgeColor}" Margin="0,2,0,0" />
+                        <TextBlock Text="Số cấu kiện cần phân biệt" FontSize="10" Foreground="#94A3B8" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- STATUS BADGE BANNER -->
+            <Border Background="{Binding StatusBadgeColor}" CornerRadius="6" Padding="14,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding StatusBadgeText}"
+                               Foreground="White"
+                               FontWeight="Bold"
+                               FontSize="12"
+                               VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1"
+                               Text="Bảo toàn 100% hình học &amp; hệ thống MEP"
+                               Foreground="White"
+                               FontSize="11"
+                               Opacity="0.9"
+                               VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <!-- 2: DATA TABLE / DATAGRID -->
+        <Border Grid.Row="2" Background="White" BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1" CornerRadius="6" Margin="16,0,16,8">
+            <Grid>
+                <DataGrid ItemsSource="{Binding DuplicateGroups}"
+                          SelectedItem="{Binding SelectedGroup}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          GridLinesVisibility="Horizontal"
+                          HorizontalGridLinesBrush="#E2E8F0"
+                          BorderThickness="0"
+                          RowHeight="32"
+                          HeadersVisibility="Column"
+                          Background="Transparent"
+                          FontSize="11">
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F1F5F9" />
+                            <Setter Property="Foreground" Value="#475569" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter Property="Height" Value="34" />
+                            <Setter Property="Padding" Value="8,0" />
+                            <Setter Property="BorderThickness" Value="0,0,1,1" />
+                            <Setter Property="BorderBrush" Value="#E2E8F0" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="STT" Binding="{Binding Index}" Width="50" />
+                        
+                        <DataGridTemplateColumn Header="Mã Mark Trùng" Width="130">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FEF2F2" CornerRadius="4" Padding="6,2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Mark}" FontWeight="Bold" Foreground="#B91C1C" />
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Số Lượng" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="#E0E7FF" CornerRadius="10" Padding="8,2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DuplicateCount}" FontWeight="Bold" Foreground="#4338CA" FontSize="11" />
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Danh Mục (Category)" Binding="{Binding CategoryNames}" Width="160" />
+                        <DataGridTextColumn Header="Tên Cấu Kiện (Family &amp; Type)" Binding="{Binding FamilyAndTypes}" Width="220" />
+                        <DataGridTextColumn Header="Tầng / Cao Độ" Binding="{Binding LevelNames}" Width="110" />
+                        <DataGridTextColumn Header="Element IDs" Binding="{Binding ElementIdsString}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- EMPTY STATE: Khi không có Mark nào bị trùng -->
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Visibility="{Binding IsClean, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="🎉" FontSize="42" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                    <TextBlock Text="MÔ HÌNH HOÀN TOÀN SẠCH SẼ!"
+                               FontSize="16" FontWeight="Bold" Foreground="#15803D" HorizontalAlignment="Center" />
+                    <TextBlock Text="Không phát hiện bất kỳ cấu kiện nào bị trùng lặp thông số Mark."
+                               FontSize="12" Foreground="#64748B" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                    <TextBlock Text="Tất cả các đối tượng đã có mã định danh duy nhất, sẵn sàng để bàn giao hồ sơ."
+                               FontSize="11" Foreground="#94A3B8" HorizontalAlignment="Center" Margin="0,2,0,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 3: ACTION TOOLBAR & STATUS BAR -->
+        <Border Grid.Row="3" Background="White" BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,1,0,0" Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Status message -->
+                <TextBlock Text="{Binding StatusMessage}"
+                           Foreground="#64748B"
+                           FontSize="11"
+                           VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis" />
+
+                <!-- Action buttons -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="👁️ Chọn Trên Revit"
+                            Command="{Binding SelectInRevitCommand}"
+                            Padding="12,6"
+                            MinHeight="32"
+                            FontSize="11"
+                            FontWeight="SemiBold"
+                            Margin="0,0,6,0"
+                            ToolTip="Chọn và zoom tới các cấu kiện bị trùng mã Mark trong Revit." />
+
+                    <Button Content="🔧 Tự Động Sửa Trùng"
+                            Command="{Binding AutoFixCommand}"
+                            Style="{DynamicResource PrimaryButton}"
+                            Padding="12,6"
+                            MinHeight="32"
+                            FontSize="11"
+                            FontWeight="Bold"
+                            Margin="0,0,6,0"
+                            ToolTip="Tự động thêm tiền tố và Element ID để phân biệt các mã Mark bị trùng." />
+
+                    <Button Content="📄 Xuất Báo Cáo CSV"
+                            Command="{Binding ExportReportCommand}"
+                            Padding="10,6"
+                            MinHeight="32"
+                            FontSize="11"
+                            Margin="0,0,6,0"
+                            ToolTip="Xuất bảng dữ liệu ra file CSV và mở bằng Excel/Notepad." />
+
+                    <Button Content="🔄 Quét Lại"
+                            Command="{Binding RefreshCommand}"
+                            Padding="10,6"
+                            MinHeight="32"
+                            FontSize="11"
+                            Margin="0,0,6,0" />
+
+                    <Button Content="Đóng"
+                            Command="{Binding CloseCommand}"
+                            Padding="14,6"
+                            MinHeight="32"
+                            FontSize="11" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -106,3 +106,38 @@
   - Loai tru 100% cac file cam: khong chua model `.rvt`, khong chua `RevitAPI.dll`, khong chua HotReloadHost hay ma nguon thau.
 - **Ket qua bien dich:** Bien dich thanh cong bang `ISCC.exe` xuat file `artifacts/installer/BIM-Tool-WorkingView-Setup-1.0.0.exe`.
 - **Ma bam xac thuc SHA-256:** `70E8B761E48349AD894A8B417F657B3E47EB68C1D5E5FA56317E0D516E53CA80`.
+
+### 2026-10-16 - Ngày 7: Đồng bộ Dữ liệu từ Incoming và Phát hành v1.2.0 Multi-Version
+- **Nguồn cập nhật:** `01.INCOMING\26.10.05_Buoi 1`.
+- **Mã nguồn tích hợp:**
+  - Đã sao chép `CleanCenterLinesCommand.cs`, `OptimizeRemainingCommand.cs`, `ModelAuditReport.cs` vào `source/Commands/`.
+  - Đã lưu `docs/TOOL_UI_BRIEF_DUPLICATE_MARK.md`.
+- **Kiểm thử tự động:**
+  - Chạy `dotnet test` đạt **20/20 Unit Tests PASS (100%)**.
+- **Biên dịch Đa phiên bản:**
+  - Biên dịch Release đạt 0 Error, 0 Warning cho 5 phiên bản: Revit 2019, 2021, 2022, 2023, 2024.
+  - Cập nhật toàn bộ nhị phân vào `artifacts/Revit2019` -> `artifacts/Revit2024`.
+- **Đóng gói Installer:**
+  - Cập nhật `scripts/installer.iss` lên phiên bản `1.2.0`.
+  - Biên dịch thành công file cài đặt: `artifacts/installer/BIM-Tool-WorkingView-Setup-1.2.0.exe` (Dung lượng: 2.05 MB, SHA-256: `B1A15D75D011D363031B42A983B49D0C54D18D1F93DC89171CA2153A6276E42D`).
+  - Đóng gói kênh cài đặt tự động PowerShell 1-Click tại `artifacts/installer/powershell-setup/`.
+
+### 2026-10-16 - Ngày 7 (Bổ sung): Tích hợp Toàn diện Audit Warnings vào Clean File
+- **Yêu cầu học viên:** Đưa tính năng Audit Warning trực tiếp vào công cụ Clean File (ModelCleanupWindow), bỏ nút riêng trên Ribbon tab BIM TOOL để giao diện tinh gọn, chuyên nghiệp gồm đúng 5 nút.
+- **Thực hiện:**
+  1. **ViewModel (ModelCleanupViewModel.cs):**
+     - Đăng ký ExportWarningsReportCommand xuất báo cáo toàn diện các cảnh báo chi tiết theo từng Element ID ra file text (%LOCALAPPDATA%\DSCons\Reports\Revit_Warnings_Report_*.txt) và mở tự động bằng Notepad.
+     - Giữ nguyên liên kết mở bảng kiểm toán trùng Mark (OpenDuplicateMarkAuditCommand) và triệt tiêu cảnh báo (ResolveAllWarningsCommand).
+  2. **Giao diện WPF (ModelCleanupWindow.xaml):**
+     - Nâng cấp Card 4 thành 4. BỘ LỌC, KIỂM TOÁN & TRIỆT TIÊU CẢNH BÁO (WARNINGS AUDIT) với 4 nút hành động: Bảng Trùng Mark, Xuất Báo Cáo, Mờ nút Warnings, và Ẩn Popup.
+  3. **Ribbon (App.cs):**
+     - Loại bỏ nút DSConsAuditWarnings (Audit\nWarnings).
+     - Chuẩn hóa Ribbon tab BIM TOOL về đúng 5 nút chính: Working 3D View, Batch Tag, Align Tags, Clean File, About Me.
+  4. **Kiểm thử & Biên dịch Đa phiên bản:**
+     - 20/20 Unit Tests PASS (100%).
+     - Biên dịch Release thành công 0 Error, 0 Warning cho 5 phiên bản: Revit 2019, 2021, 2022, 2023, 2024.
+     - Cập nhật toàn bộ artifacts tại rtifacts/Revit2019 -> rtifacts/Revit2024.
+  5. **Đóng gói Installer (.exe):**
+     - Cập nhật kịch bản scripts/installer.iss (ReadyMemo phản ánh đúng 5 nút Ribbon).
+     - Biên dịch lại Inno Setup xuất file rtifacts/installer/BIM-Tool-WorkingView-Setup-1.2.0.exe (SHA-256:  0A2A0679B3DF7E22346B034ED35E0026353F5BEC00A569DD849DC57FBCD197C, 2.148.920 bytes).
+     - Cập nhật bảng kiểm định SHA-256 trong rtifacts/installer/README.md và README_CAI_DAT.md.

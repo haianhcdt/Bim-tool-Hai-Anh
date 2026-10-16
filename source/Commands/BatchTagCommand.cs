@@ -73,7 +73,7 @@ public class BatchTagCommand : IExternalCommand
             {
                 try
                 {
-                    var taggedId = tag.TaggedLocalElementId;
+                                        var taggedId = GetTaggedElementIdSafe(tag);
                     if (taggedId != null && taggedId != ElementId.InvalidElementId)
                     {
                         alreadyTaggedIds.Add(taggedId.AsLong());
@@ -180,5 +180,53 @@ public class BatchTagCommand : IExternalCommand
             message = ex.Message;
             return Result.Failed;
         }
+    }
+    private static ElementId GetTaggedElementIdSafe(IndependentTag tag)
+    {
+        try
+        {
+            var prop = typeof(IndependentTag).GetProperty("TaggedLocalElementId");
+            if (prop != null)
+            {
+                var val = prop.GetValue(tag) as ElementId;
+                if (val != null) return val;
+            }
+
+            var methodLocal = typeof(IndependentTag).GetMethod("GetTaggedLocalElementIds");
+            if (methodLocal != null)
+            {
+                var col = methodLocal.Invoke(tag, null) as System.Collections.IEnumerable;
+                if (col != null)
+                {
+                    foreach (var item in col)
+                    {
+                        if (item is ElementId id && id != ElementId.InvalidElementId) return id;
+                    }
+                }
+            }
+
+            var methodIds = typeof(IndependentTag).GetMethod("GetTaggedElementIds");
+            if (methodIds != null)
+            {
+                var col = methodIds.Invoke(tag, null) as System.Collections.IEnumerable;
+                if (col != null)
+                {
+                    foreach (var item in col)
+                    {
+                        if (item is LinkElementId linkId && linkId.LinkInstanceId == ElementId.InvalidElementId)
+                        {
+                            return linkId.HostElementId;
+                        }
+                        if (item is ElementId elId && elId != ElementId.InvalidElementId)
+                        {
+                            return elId;
+                        }
+                    }
+                }
+            }
+        }
+        catch { }
+
+        return ElementId.InvalidElementId;
     }
 }

@@ -1,7 +1,7 @@
 ﻿# Trạng thái triển khai (Implementation Status) — BIM-Tool-WorkingView
 
-- **Cập nhật lần cuối:** 2026-10-09 21:25 (Ngày 4 hoàn tất)
-- **Tiến độ tổng quan:** Hoàn thành toàn diện Ngày 1, Ngày 2, Ngày 3 và Ngày 4. Sẵn sàng cho Ngày 5.
+- **Cập nhật lần cuối: 2026-10-16 20:56 (Ngày 7: Hoàn tất tích hợp Audit Warnings vào Clean File & Phát hành v1.2.0)
+- **Tiến độ tổng quan: Đã hoàn thiện toàn diện v1.2.0 Đa phiên bản (Revit 2019-2024), 5 nút Ribbon chuẩn hóa, bộ cài EXE và PowerShell 1-Click.
 
 ---
 
@@ -46,3 +46,18 @@
 - **Nguyên nhân:** Khai báo `Style="{StaticResource PrimaryButton}"` buộc WPF tìm style tại thời điểm parse XAML trước khi `WindowTheme.Apply(this)` nạp `Theme.xaml`.
 - **Giải pháp:** Đổi sang `{DynamicResource PrimaryButton}`.
 - **Trạng thái:** Đã fix, build lại DLL sản phẩm và hot-reload thành công vào phiên làm việc Revit.
+---
+
+## 5. Cập nhật Phiên bản v1.2.0 (2026-10-16)
+- **Đồng bộ tính năng từ Incoming (`26.10.05_Buoi 1`):**
+  - Bổ sung `CleanCenterLinesCommand.cs` (Dọn dẹp 47.422 đường nét Center Line rác).
+  - Bổ sung `OptimizeRemainingCommand.cs` (Quét và giải phóng hệ thống ống rỗng).
+  - Bổ sung `ModelAuditReport.cs` (Thống kê và báo cáo sức khỏe file mô hình).
+  - Bổ sung tài liệu thiết kế UI: `docs/TOOL_UI_BRIEF_DUPLICATE_MARK.md`.
+- **Kiểm thử & Biên dịch:**
+  - 20 / 20 Unit Tests PASS (100%).
+  - Biên dịch Release thành công 0 Warning, 0 Error cho toàn bộ 5 phiên bản Revit: 2019, 2021, 2022, 2023, 2024.
+- **Phát hành & Đóng gói:**
+  - Biên dịch Inno Setup xuất file bộ cài: `artifacts/installer/BIM-Tool-WorkingView-Setup-1.2.0.exe` (SHA-256: `B1A15D75D011D363031B42A983B49D0C54D18D1F93DC89171CA2153A6276E42D`).
+  - Thiết lập gói cài đặt PowerShell 1-Click tại `artifacts/installer/powershell-setup/` (`Install-All-Versions.ps1`, `Uninstall-All-Versions.ps1`).
+  - Cập nhật tài liệu hướng dẫn `artifacts/installer/README.md` và `README_CAI_DAT.md`.

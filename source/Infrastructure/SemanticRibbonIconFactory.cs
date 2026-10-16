@@ -17,7 +17,21 @@ public static class SemanticRibbonIconFactory
             var accent = Brush(UiBranding.PrimaryColor);
             dc.DrawRoundedRectangle(Brush("#F2FAFC"), Pen(Brush("#B5DCE5"), 1), new Rect(.75, .75, 30.5, 30.5), 5, 5);
 
-            if (string.Equals(icon, "filter", StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(icon, "cleanup", StringComparison.OrdinalIgnoreCase))
+            {
+                // ThÃ¢n chá»•i chÃ©o
+                dc.DrawLine(Pen(accent, 2.5), new Point(22, 6), new Point(14, 16));
+                // Cá»• chá»•i
+                dc.DrawLine(Pen(accent, 3.5), new Point(12, 14), new Point(16, 18));
+                // LÃ´ng chá»•i
+                DrawPolyline(dc, accent, 2, new Point(12, 16), new Point(7, 24), new Point(15, 24), new Point(15, 18));
+                // Tia sÃ¡ng ngÃ´i sao sáº¡ch sáº½
+                dc.DrawLine(Pen(accent, 1.8), new Point(22, 14), new Point(26, 14));
+                dc.DrawLine(Pen(accent, 1.8), new Point(24, 12), new Point(24, 16));
+                dc.DrawLine(Pen(accent, 1.5), new Point(8, 9), new Point(12, 9));
+                dc.DrawLine(Pen(accent, 1.5), new Point(10, 7), new Point(10, 11));
+            }
+            else if (string.Equals(icon, "filter", StringComparison.OrdinalIgnoreCase))
             {
                 DrawPolyline(dc, accent, 2, new Point(6, 7), new Point(26, 7), new Point(19, 15), new Point(19, 25), new Point(13, 22), new Point(13, 15), new Point(6, 7));
             }
