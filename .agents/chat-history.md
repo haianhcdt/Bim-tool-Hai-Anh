@@ -141,3 +141,21 @@
      - Cập nhật kịch bản scripts/installer.iss (ReadyMemo phản ánh đúng 5 nút Ribbon).
      - Biên dịch lại Inno Setup xuất file rtifacts/installer/BIM-Tool-WorkingView-Setup-1.2.0.exe (SHA-256:  0A2A0679B3DF7E22346B034ED35E0026353F5BEC00A569DD849DC57FBCD197C, 2.148.920 bytes).
      - Cập nhật bảng kiểm định SHA-256 trong rtifacts/installer/README.md và README_CAI_DAT.md.- **Đẩy lên GitHub:** Đã đẩy thành công commit 8c366dd và tag 1.2.0 lên remote origin (https://github.com/haianhcdt/Bim-tool-Hai-Anh.git). Nhánh main hoàn toàn đồng bộ với remote.
+### 2026-10-16 - Ngày 7 (Bổ sung 2): Nâng cấp Working Views Suite (Tạo Mặt bằng làm việc theo Level)
+- **Yêu cầu học viên:** Nâng cấp công cụ tạo View 3D thêm chức năng tạo View mặt bằng làm việc theo Phương án A (Hộp thoại WPF trung tâm).
+- **Thực hiện:**
+  1. **Tài liệu & Thiết kế:**
+     - Lập docs/TOOL_UI_BRIEF_WORKING_PLANS.md và docs/IMPLEMENTATION_PLAN_WORKING_PLANS.md.
+  2. **Core Library & Unit Tests:**
+     - Mở rộng WorkingViewNaming.cs: bổ sung BuildWorkingPlanName(levelName, userName) -> FL_Working_HaiAnh_{LevelName} và BuildWorkingSectionName(...).
+     - Bổ sung 4 unit tests mới trong WorkingViewNamingTests.cs. Toàn bộ **24/24 Unit Tests PASS (100%)**.
+  3. **Giao diện WPF MVVM:**
+     - Tạo WorkingViewsViewModel.cs: Tự động quét Level trong dự án, nhận diện tầng hiện hành, kiểm tra trạng thái mặt bằng đã có sẵn (Idempotent), hỗ trợ tạo hàng loạt và chuyển góc nhìn.
+     - Tạo WorkingViewsWindow.xaml & WorkingViewsWindow.xaml.cs: Bố cục Card trực quan gồm Thẻ 3D View cá nhân và Thẻ Bảng Tầng (DataGrid) kèm Checkbox, Cao độ, Tên View sinh ra, Badge trạng thái và Nút mở nhanh.
+  4. **Tích hợp Command & Ribbon:**
+     - Tạo WorkingViewsCommand.cs và cập nhật CreateWorkingViewCommand.cs chuyển tiếp.
+     - Nâng cấp nút Ribbon DSConsWorkingView: Label "Working\nViews", ToolTip quản lý cả Mặt bằng và 3D.
+  5. **Biên dịch & Đóng gói:**
+     - Biên dịch thành công Release 0 Error 0 Warning cho cả 5 phiên bản: Revit 2019, 2021, 2022, 2023, 2024.
+     - Cập nhật toàn bộ artifacts và copy trực tiếp vào các thư mục %APPDATA%\Autodesk\Revit\Addins\<Year>\BIM-Tool-WorkingView\.
+     - Biên dịch lại Inno Setup: BIM-Tool-WorkingView-Setup-1.2.0.exe (SHA-256: FA5958F6FE0DD0DE737AB72D3C72E7D87B2A40F621C0442087AF54B953D36133, Dung lượng: 2.152.887 bytes).

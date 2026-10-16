@@ -13,7 +13,7 @@
 
 Bộ công cụ **BIM TOOL - Hải Anh** là Add-in chuyên dụng tích hợp trực tiếp vào Autodesk Revit, hỗ trợ các kỹ sư Cơ Điện (MEP) và nhóm BIM tối ưu hóa quy trình triển khai bản vẽ và bàn giao hồ sơ mô hình:
 
-1. **Working 3D View (Tạo View 3D cá nhân):**
+1. **Working Views (Quản lý & Tạo Mặt bằng, 3D View làm việc cá nhân):**
    - Tự động kiểm tra và khởi tạo View 3D làm việc riêng biệt (`3D_Working_HaiAnh`) trên Project Browser.
    - Cấu hình chuẩn hiển thị: `Fine` (Chi tiết cao), `ShadingWithEdges` (Đổ bóng rõ cạnh), giúp thao tác không gian MEP mà không can thiệp vào các View in ấn chính thức của dự án.
 
@@ -89,7 +89,7 @@ Bộ công cụ **BIM TOOL - Hải Anh** là Add-in chuyên dụng tích hợp t
 |---|---|
 | **Tên tệp** | `BIM-Tool-WorkingView-Setup-1.2.0.exe` |
 | **Phiên bản** | `1.2.0` |
-| **Dung lượng** | 2.148.920 bytes (~2,05 MB) |
-| **Mã băm SHA-256** | `00A2A0679B3DF7E22346B034ED35E0026353F5BEC00A569DD849DC57FBCD197C` |
+| **Dung lượng** | 2.152.887 bytes (~2,05 MB) |
+| **Mã băm SHA-256** | `FA5958F6FE0DD0DE737AB72D3C72E7D87B2A40F621C0442087AF54B953D36133` |
 | **Phạm vi hỗ trợ** | Autodesk Revit 2019, 2021, 2022, 2023, 2024 |
-| **Trạng thái kiểm thử** | 20/20 Unit Tests PASS (100%), 0 Warnings, 0 Errors |
+| **Trạng thái kiểm thử** | 24/24 Unit Tests PASS (100%), 0 Warnings, 0 Errors |

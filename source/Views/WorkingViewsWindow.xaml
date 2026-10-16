@@ -1,0 +1,243 @@
+<Window x:Class="DSCons.Revit.Starter.Views.WorkingViewsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BIM TOOL — Quản lý View làm việc cá nhân"
+        Width="720"
+        Height="580"
+        MinWidth="660"
+        MinHeight="480"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#F8FAFC"
+        FontFamily="Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="74" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="54" />
+        </Grid.RowDefinitions>
+
+        <!-- 0: HEADER -->
+        <Border Grid.Row="0" Background="{DynamicResource AccentBrush}" Padding="20,12">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="BIM TOOL | REVIT MEP WORKSPACE"
+                           Foreground="{DynamicResource AccentForegroundBrush}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Opacity="0.85" />
+                <TextBlock Text="Quản Lý View Làm Việc Cá Nhân (Working Views)"
+                           Foreground="{DynamicResource AccentForegroundBrush}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,3,0,0" />
+            </StackPanel>
+        </Border>
+
+        <!-- 1: MAIN BODY -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="18,14">
+            <StackPanel>
+                <!-- CARD 1: 3D WORKING VIEW -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="7"
+                        Padding="14,12"
+                        Margin="0,0,0,14">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="1. VIEW 3D LÀM VIỆC CÁ NHÂN"
+                                       FontSize="11"
+                                       FontWeight="Bold"
+                                       Foreground="#64748B" />
+                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Target3DViewName}"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           Foreground="#0F172A" />
+                                <Border Background="{Binding Status3DBrush}"
+                                        CornerRadius="4"
+                                        Padding="6,2"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Status3DText}"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="White" />
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Text="Góc nhìn 3D đẳng giác Fine / Shaded with Edges dành riêng cho thao tác không gian MEP."
+                                       FontSize="11"
+                                       Foreground="#64748B"
+                                       Margin="0,2,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="{Binding Button3DText}"
+                                Command="{Binding CreateOrOpenWorking3DCommand}"
+                                Style="{DynamicResource PrimaryButton}"
+                                Padding="12,7"
+                                MinHeight="36"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- CARD 2: WORKING FLOOR PLANS -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="7"
+                        Padding="14,14">
+                    <StackPanel>
+                        <!-- Card 2 Header -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="2. MẶT BẰNG LÀM VIỆC CÁ NHÂN (WORKING FLOOR PLANS)"
+                                           FontSize="11"
+                                           FontWeight="Bold"
+                                           Foreground="#64748B" />
+                                <TextBlock Text="Chọn các tầng để tạo mặt bằng cá nhân (Quy tắc: FL_Working_HaiAnh_{Tầng}):"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="#0F172A"
+                                           Margin="0,2,0,0" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Button Content="Chọn tất cả"
+                                        Command="{Binding SelectAllCommand}"
+                                        Padding="8,4"
+                                        MinHeight="28"
+                                        FontSize="11"
+                                        Margin="0,0,6,0" />
+                                <Button Content="Bỏ chọn"
+                                        Command="{Binding DeselectAllCommand}"
+                                        Padding="8,4"
+                                        MinHeight="28"
+                                        FontSize="11" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Levels DataGrid -->
+                        <DataGrid ItemsSource="{Binding Levels}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="False"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#E2E8F0"
+                                  BorderBrush="{DynamicResource BorderBrush}"
+                                  BorderThickness="1"
+                                  MinHeight="180"
+                                  MaxHeight="260"
+                                  Background="White"
+                                  RowHeight="32">
+                            <DataGrid.Columns>
+                                <!-- Checkbox Column -->
+                                <DataGridCheckBoxColumn Header="Chọn"
+                                                        Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                                        Width="55" />
+
+                                <!-- Level Name -->
+                                <DataGridTextColumn Header="Tầng (Level)"
+                                                    Binding="{Binding LevelName}"
+                                                    FontWeight="SemiBold"
+                                                    Width="120"
+                                                    IsReadOnly="True" />
+
+                                <!-- Elevation -->
+                                <DataGridTextColumn Header="Cao độ"
+                                                    Binding="{Binding ElevationFormatted}"
+                                                    Width="85"
+                                                    IsReadOnly="True" />
+
+                                <!-- Target View Name -->
+                                <DataGridTextColumn Header="Tên View làm việc cá nhân"
+                                                    Binding="{Binding TargetPlanName}"
+                                                    FontFamily="Consolas"
+                                                    FontSize="11"
+                                                    Width="*"
+                                                    IsReadOnly="True" />
+
+                                <!-- Status Badge -->
+                                <DataGridTemplateColumn Header="Trạng thái" Width="105">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{Binding StatusBadgeBackground}"
+                                                    CornerRadius="3"
+                                                    Padding="6,2"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding StatusText}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{Binding StatusBrush}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Open View Action -->
+                                <DataGridTemplateColumn Header="Thao tác" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Mở View"
+                                                    Command="{Binding DataContext.OpenExistingPlanCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                    CommandParameter="{Binding}"
+                                                    IsEnabled="{Binding AlreadyExists}"
+                                                    Padding="6,2"
+                                                    MinHeight="24"
+                                                    FontSize="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <!-- Action Button -->
+                        <Button Content="{Binding CreateButtonText}"
+                                Command="{Binding CreateWorkingPlansCommand}"
+                                IsEnabled="{Binding CanCreatePlans}"
+                                Style="{DynamicResource PrimaryButton}"
+                                MinHeight="40"
+                                FontSize="13"
+                                FontWeight="Bold"
+                                Margin="0,14,0,0"
+                                Cursor="Hand" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 2: STATUS BAR & FOOTER -->
+        <Border Grid.Row="2" Background="White" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="18,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding StatusMessage}"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           Foreground="#475569"
+                           TextTrimming="CharacterEllipsis" />
+                <Button Grid.Column="1"
+                        Content="Đóng"
+                        Command="{Binding CloseCommand}"
+                        Padding="18,6"
+                        FontSize="11"
+                        VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

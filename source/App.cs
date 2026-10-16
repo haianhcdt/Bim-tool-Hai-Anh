@@ -15,11 +15,11 @@ public class App : IExternalApplication
 
         var workingViewButton = new PushButtonData(
             "DSConsWorkingView",
-            "Working\n3D View",
+            "Working\nViews",
             typeof(App).Assembly.Location,
-            "DSCons.Revit.Starter.Commands.CreateWorkingViewCommand")
+            "DSCons.Revit.Starter.Commands.WorkingViewsCommand")
         {
-            ToolTip = "Tạo hoặc kích hoạt View 3D làm việc cá nhân (3D_Working_HaiAnh) trên Project Browser.",
+            ToolTip = "Quản lý và tạo các View làm việc cá nhân (Mặt bằng & 3D View) độc lập với hồ sơ dự án.",
             Image = SemanticRibbonIconFactory.Create("view3d", false),
             LargeImage = SemanticRibbonIconFactory.Create("view3d", true)
         };

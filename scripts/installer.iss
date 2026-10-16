@@ -158,7 +158,7 @@ begin
     S := S + NewLine + 'CANH BAO: Khong tim thay phien ban Revit (2019-2024) nao phu hop tren may nay!' + NewLine;
 
   Result := S + NewLine + 'TICH HOP TRON BO CONG CU TREN TAB RIBBON "BIM TOOL":' + NewLine +
-           '  1. Working 3D View (Tao/Kich hoat View 3D ca nhan 3D_Working_HaiAnh)' + NewLine +
+           '  1. Working Views (Quan ly & Tao Mat bang, 3D View lam viec ca nhan)' + NewLine +
            '  2. Batch Tag (Ghi chu tag ong gio hang loat)' + NewLine +
            '  3. Align Tags (Can giong the ghi chu thang hang)' + NewLine +
            '  4. Clean File (Don dep file ban giao, Warnings Audit, Duplicate Mark & Purge Unused)' + NewLine +
