@@ -1,11 +1,11 @@
 <Window x:Class="DSCons.Revit.Starter.Views.CreateViewWorkingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="BIM TOOL — Khởi Tạo View Làm Việc &amp; Chuẩn Hóa View Template"
-        Width="980"
-        Height="740"
-        MinWidth="850"
-        MinHeight="640"
+        Title="BIM TOOL — Khởi Tạo View Làm Việc (Create View Working)"
+        Width="880"
+        Height="720"
+        MinWidth="800"
+        MinHeight="620"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
@@ -35,12 +35,12 @@
                                FontSize="11"
                                FontWeight="SemiBold"
                                Opacity="0.85" />
-                    <TextBlock Text="Khởi Tạo View Làm Việc &amp; Chuẩn Hóa View Template"
+                    <TextBlock Text="Khởi Tạo View Làm Việc (Create View Working)"
                                Foreground="{DynamicResource AccentForegroundBrush}"
                                FontSize="18"
                                FontWeight="Bold"
                                Margin="0,2,0,1" />
-                    <TextBlock Text="{Binding DocumentTitle, StringFormat='Mô hình: {0} • Tích hợp Mặt Bằng, Mặt Cắt, 3D Tầng &amp; Chuẩn Hóa View Template'}"
+                    <TextBlock Text="{Binding DocumentTitle, StringFormat='Mô hình: {0} • Tích hợp 3 chức năng Mặt Bằng, Mặt Cắt &amp; 3D Tầng'}"
                                Foreground="{DynamicResource AccentForegroundBrush}"
                                FontSize="11"
                                Opacity="0.9" />
@@ -91,7 +91,6 @@
                 <Grid Margin="0,10,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
@@ -103,7 +102,7 @@
                             BorderThickness="1"
                             CornerRadius="6"
                             Padding="12,8"
-                            Margin="0,0,0,6">
+                            Margin="0,0,0,8">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -128,30 +127,8 @@
                         </Grid>
                     </Border>
 
-                    <!-- View Template Options Card -->
-                    <Border Grid.Row="1"
-                            Background="#F0FDF4"
-                            BorderBrush="#BBF7D0"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="12,7"
-                            Margin="0,0,0,8">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="CẤU HÌNH TEMPLATE:" FontWeight="Bold" FontSize="11" Foreground="#15803D" VerticalAlignment="Center" Margin="0,0,12,0" />
-                            <WrapPanel Grid.Column="1" VerticalAlignment="Center">
-                                <CheckBox IsChecked="{Binding AutoAssignTemplate}" Content="Tự động gán View Template chuẩn theo phân hệ" FontWeight="SemiBold" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                <CheckBox IsChecked="{Binding ResetTemplateToNone}" Content="Nhả về &lt;None&gt; (mở khóa VG để tự do vẽ)" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                <CheckBox IsChecked="{Binding ActivateUserFilter}" Content="Kích hoạt Filter User (DSC_SS_USER XX)" FontSize="11" Cursor="Hand" />
-                            </WrapPanel>
-                        </Grid>
-                    </Border>
-
                     <!-- 2 Columns: Levels & Systems -->
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="10" />
@@ -172,41 +149,32 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="CHỌN TẦNG (LEVELS)" FontWeight="Bold" FontSize="11" Foreground="#64748B" VerticalAlignment="Center" />
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                        <Button Content="Tất cả" Command="{Binding SelectAllPlanLevelsCommand}" Padding="8,2" FontSize="11" Margin="0,0,4,0" />
-                                        <Button Content="Bỏ chọn" Command="{Binding UnselectAllPlanLevelsCommand}" Padding="8,2" FontSize="11" />
+                                        <Button Content="Tất cả" Command="{Binding SelectAllPlanLevelsCommand}" Padding="6,2" FontSize="10" Margin="0,0,4,0" />
+                                        <Button Content="Bỏ chọn" Command="{Binding UnselectAllPlanLevelsCommand}" Padding="6,2" FontSize="10" />
                                     </StackPanel>
                                 </Grid>
-
-                                <DataGrid Grid.Row="1"
-                                          ItemsSource="{Binding PlanLevels}"
-                                          AutoGenerateColumns="False"
-                                          CanUserAddRows="False"
-                                          CanUserDeleteRows="False"
-                                          IsReadOnly="False"
-                                          HeadersVisibility="Column"
-                                          GridLinesVisibility="Horizontal"
-                                          HorizontalGridLinesBrush="#E2E8F0"
-                                          BorderBrush="{DynamicResource BorderBrush}"
-                                          BorderThickness="1"
-                                          Background="White"
-                                          RowHeight="30">
-                                    <DataGrid.Columns>
-                                        <!-- 1-Click CheckBox Column -->
-                                        <DataGridTemplateColumn Header="Chọn" Width="55">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
-                                                              HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center"
-                                                              Cursor="Hand" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTextColumn Header="Tầng trong Revit" Binding="{Binding Name}" FontWeight="SemiBold" Width="*" IsReadOnly="True" />
-                                        <DataGridTextColumn Header="Mã Level" Binding="{Binding LevelCode}" FontFamily="Consolas" FontWeight="Bold" Width="80" />
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding PlanLevels}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="#F1F5F9" BorderThickness="0,0,0,1" Padding="2,4">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="60" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="0,0,6,0" Cursor="Hand" />
+                                                        <TextBlock Grid.Column="1" Text="{Binding Name}" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock Grid.Column="2" Text="{Binding ElevationDisplay}" FontSize="10" Foreground="#64748B" VerticalAlignment="Center" Margin="4,0" />
+                                                        <TextBox Grid.Column="3" Text="{Binding LevelCode, UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" FontSize="10" FontWeight="Bold" VerticalContentAlignment="Center" Height="22" Padding="2,0" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </Grid>
                         </Border>
 
@@ -222,65 +190,55 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="CHỌN HỆ KỸ THUẬT (13 HỆ MEP)" FontWeight="Bold" FontSize="11" Foreground="#64748B" VerticalAlignment="Center" />
+                                    <TextBlock Text="13 PHÂN HỆ KỸ THUẬT MEP" FontWeight="Bold" FontSize="11" Foreground="#64748B" VerticalAlignment="Center" />
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                        <Button Content="Tất cả" Command="{Binding SelectAllPlanSystemsCommand}" Padding="8,2" FontSize="11" Margin="0,0,4,0" />
-                                        <Button Content="Bỏ chọn" Command="{Binding UnselectAllPlanSystemsCommand}" Padding="8,2" FontSize="11" />
+                                        <Button Content="Tất cả" Command="{Binding SelectAllPlanSystemsCommand}" Padding="6,2" FontSize="10" Margin="0,0,4,0" />
+                                        <Button Content="Bỏ chọn" Command="{Binding UnselectAllPlanSystemsCommand}" Padding="6,2" FontSize="10" />
                                     </StackPanel>
                                 </Grid>
-
-                                <DataGrid Grid.Row="1"
-                                          ItemsSource="{Binding PlanSystems}"
-                                          AutoGenerateColumns="False"
-                                          CanUserAddRows="False"
-                                          CanUserDeleteRows="False"
-                                          IsReadOnly="False"
-                                          HeadersVisibility="Column"
-                                          GridLinesVisibility="Horizontal"
-                                          HorizontalGridLinesBrush="#E2E8F0"
-                                          BorderBrush="{DynamicResource BorderBrush}"
-                                          BorderThickness="1"
-                                          Background="White"
-                                          RowHeight="30">
-                                    <DataGrid.Columns>
-                                        <!-- 1-Click CheckBox Column -->
-                                        <DataGridTemplateColumn Header="Chọn" Width="55">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
-                                                              HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center"
-                                                              Cursor="Hand" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-
-                                        <!-- Mã hệ thống có thể gõ tay trực tiếp -->
-                                        <DataGridTemplateColumn Header="Mã" Width="65">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBox Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}"
-                                                             FontFamily="Consolas"
-                                                             FontWeight="Bold"
-                                                             HorizontalContentAlignment="Center"
-                                                             VerticalContentAlignment="Center"
-                                                             BorderBrush="#CBD5E1"
-                                                             BorderThickness="1"
-                                                             Background="#F8FAFC"
-                                                             Padding="2,1" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTextColumn Header="Tên hệ thống" Binding="{Binding Name}" FontWeight="SemiBold" Width="170" IsReadOnly="True" />
-                                        <DataGridTextColumn Header="Mô tả kỹ thuật" Binding="{Binding Description}" Width="*" IsReadOnly="True" />
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding PlanSystems}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="#F1F5F9" BorderThickness="0,0,0,1" Padding="2,4">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="48" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="0,0,6,0" Cursor="Hand" />
+                                                        <TextBox Grid.Column="1"
+                                                                 Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}"
+                                                                 FontFamily="Consolas"
+                                                                 FontWeight="Bold"
+                                                                 FontSize="11"
+                                                                 Foreground="#1466B8"
+                                                                 Background="#F8FAFC"
+                                                                 BorderBrush="#CBD5E1"
+                                                                 BorderThickness="1"
+                                                                 HorizontalContentAlignment="Center"
+                                                                 VerticalContentAlignment="Center"
+                                                                 Height="22"
+                                                                 Padding="2,0"
+                                                                 Margin="0,0,6,0"
+                                                                 ToolTip="Mã phân hệ (có thể nhập tay điều chỉnh theo dự án)" />
+                                                        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding EnglishName}" FontWeight="SemiBold" FontSize="11" TextTrimming="CharacterEllipsis" />
+                                                            <TextBlock Text="{Binding VietnameseName}" FontSize="9.5" Foreground="#64748B" TextTrimming="CharacterEllipsis" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </Grid>
                         </Border>
                     </Grid>
 
-                    <Button Grid.Row="3"
+                    <!-- Action Button -->
+                    <Button Grid.Row="2"
                             Content="{Binding CreatePlansButtonText}"
                             Command="{Binding CreateFloorPlansCommand}"
                             IsEnabled="{Binding CanCreatePlans}"
@@ -336,22 +294,6 @@
                                         </Border>
                                     </Grid>
                                 </StackPanel>
-                            </Border>
-
-                            <!-- View Template & Filter Card -->
-                            <Border Background="#F0FDF4" BorderBrush="#BBF7D0" BorderThickness="1" CornerRadius="6" Padding="14,10" Margin="0,0,0,10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="CẤU HÌNH TEMPLATE &amp; FILTER:" FontWeight="Bold" FontSize="11" Foreground="#15803D" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                    <WrapPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <CheckBox IsChecked="{Binding AutoAssignTemplate}" Content="Tự động gán View Template (DSC_W_C_SS)" FontWeight="SemiBold" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                        <CheckBox IsChecked="{Binding ResetTemplateToNone}" Content="Nhả về &lt;None&gt; (mở khóa VG)" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                        <CheckBox IsChecked="{Binding ActivateUserFilter}" Content="Kích hoạt Filter mặt cắt User (DSC_SS_USER XX)" FontSize="11" Cursor="Hand" />
-                                    </WrapPanel>
-                                </Grid>
                             </Border>
 
                             <!-- Folder Organization Card -->
@@ -433,33 +375,11 @@
             <TabItem Header="🧊 3. 3D Tầng MEP">
                 <Grid Margin="0,10,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- View Template Options Card -->
-                    <Border Grid.Row="0"
-                            Background="#F0FDF4"
-                            BorderBrush="#BBF7D0"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="12,7"
-                            Margin="0,0,0,8">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="CẤU HÌNH TEMPLATE:" FontWeight="Bold" FontSize="11" Foreground="#15803D" VerticalAlignment="Center" Margin="0,0,12,0" />
-                            <WrapPanel Grid.Column="1" VerticalAlignment="Center">
-                                <CheckBox IsChecked="{Binding AutoAssignTemplate}" Content="Tự động gán View Template (DSC_W_C_3D)" FontWeight="SemiBold" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                <CheckBox IsChecked="{Binding ResetTemplateToNone}" Content="Nhả về &lt;None&gt; (mở khóa VG để tự do vẽ)" FontSize="11" Cursor="Hand" />
-                            </WrapPanel>
-                        </Grid>
-                    </Border>
-
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
@@ -546,168 +466,10 @@
                         </Border>
                     </Grid>
 
-                    <Button Grid.Row="2"
+                    <Button Grid.Row="1"
                             Content="{Binding Create3DViewsButtonText}"
                             Command="{Binding Create3DViewsCommand}"
                             IsEnabled="{Binding CanCreate3DViews}"
-                            Style="{DynamicResource PrimaryButton}"
-                            MinHeight="38"
-                            FontSize="12"
-                            FontWeight="Bold"
-                            Margin="0,8,0,0"
-                            Cursor="Hand" />
-                </Grid>
-            </TabItem>
-
-            <!-- ============================================================= -->
-            <!-- TAB 4: CHUẨN HÓA VIEW TEMPLATE & BỘ LỌC -->
-            <!-- ============================================================= -->
-            <TabItem Header="🎨 4. Chuẩn Hóa Template">
-                <Grid Margin="0,10,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <!-- Filter & Action Configuration Card -->
-                    <Border Grid.Row="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Padding="14,10" Margin="0,0,0,8">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <!-- Scope Selection -->
-                            <Grid Grid.Row="0" Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="PHẠM VI QUÉT VIEW:" FontWeight="Bold" FontSize="11" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,14,0" />
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <RadioButton Content="Tất cả Views trong mô hình" IsChecked="{Binding IsScopeAll}" Margin="0,0,16,0" FontWeight="SemiBold" Cursor="Hand" />
-                                    <RadioButton Content="Chỉ nhánh WORKING (User 1 .. 5)" IsChecked="{Binding IsScopeWorking}" Margin="0,0,16,0" FontWeight="SemiBold" Cursor="Hand" />
-                                    <RadioButton Content="Chỉ nhánh EXPORT (Bản vẽ / Shop / Dalux)" IsChecked="{Binding IsScopeExport}" FontWeight="SemiBold" Cursor="Hand" />
-                                </StackPanel>
-                            </Grid>
-
-                            <!-- Execution Workflow Options -->
-                            <Border Grid.Row="1" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="4" Padding="10,6">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="QUY TRÌNH THỰC THI:" FontWeight="Bold" FontSize="10" Foreground="#0284C7" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                    <WrapPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <CheckBox IsChecked="{Binding Tab4AssignTemplates}" Content="1. Gán View Template đề xuất" FontWeight="SemiBold" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                        <CheckBox IsChecked="{Binding Tab4ResetToNone}" Content="2. Nhả về &lt;None&gt; (mở khóa VG để tự do vẽ)" FontSize="11" Margin="0,0,16,0" Cursor="Hand" />
-                                        <CheckBox IsChecked="{Binding Tab4ActivateUserFilter}" Content="3. Kích hoạt Filter mặt cắt theo User (DSC_SS_USER XX)" FontSize="11" Cursor="Hand" />
-                                    </WrapPanel>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </Border>
-
-                    <!-- Views DataGrid -->
-                    <Border Grid.Row="1" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Padding="10">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <!-- Header Bar: Summary & Quick Select -->
-                            <Grid Grid.Row="0" Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Tab4SummaryText}" FontWeight="SemiBold" FontSize="11" Foreground="#1E293B" />
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="Chọn tất cả" Command="{Binding SelectAllTab4ViewsCommand}" Padding="8,3" FontSize="11" Margin="0,0,6,0" Cursor="Hand" />
-                                    <Button Content="Bỏ chọn" Command="{Binding UnselectAllTab4ViewsCommand}" Padding="8,3" FontSize="11" Margin="0,0,6,0" Cursor="Hand" />
-                                    <Button Content="🔄 Quét lại" Command="{Binding RefreshTab4ViewsCommand}" Padding="8,3" FontSize="11" Cursor="Hand" />
-                                </StackPanel>
-                            </Grid>
-
-                            <!-- Views Table -->
-                            <DataGrid Grid.Row="1"
-                                      ItemsSource="{Binding DisplayedTab4Views}"
-                                      AutoGenerateColumns="False"
-                                      CanUserAddRows="False"
-                                      CanUserDeleteRows="False"
-                                      IsReadOnly="False"
-                                      HeadersVisibility="Column"
-                                      GridLinesVisibility="Horizontal"
-                                      HorizontalGridLinesBrush="#E2E8F0"
-                                      BorderBrush="{DynamicResource BorderBrush}"
-                                      BorderThickness="1"
-                                      Background="White"
-                                      RowHeight="32">
-                                <DataGrid.Columns>
-                                    <!-- 1-Click CheckBox Column -->
-                                    <DataGridTemplateColumn Header="Chọn" Width="50">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center"
-                                                          Cursor="Hand" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-
-                                    <!-- View Name -->
-                                    <DataGridTextColumn Header="Tên View trong Revit" Binding="{Binding ViewName}" FontWeight="SemiBold" Width="210" IsReadOnly="True" />
-
-                                    <!-- Scope Badge -->
-                                    <DataGridTemplateColumn Header="Nhánh" Width="90" IsReadOnly="True">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border CornerRadius="4" Padding="6,2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F1F5F9">
-                                                    <TextBlock Text="{Binding Scope}" FontWeight="Bold" FontSize="10" Foreground="#0284C7" />
-                                                </Border>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-
-                                    <!-- Discipline -->
-                                    <DataGridTextColumn Header="Phân hệ kỹ thuật" Binding="{Binding Discipline}" Width="135" IsReadOnly="True" />
-
-                                    <!-- Current Template -->
-                                    <DataGridTextColumn Header="Template hiện tại" Binding="{Binding CurrentTemplateName}" Width="140" IsReadOnly="True" />
-
-                                    <!-- Target Template (Editable ComboBox) -->
-                                    <DataGridTemplateColumn Header="Template chuẩn áp dụng" Width="220">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <ComboBox ItemsSource="{Binding DataContext.AvailableTemplates, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                          SelectedItem="{Binding SelectedTemplate, UpdateSourceTrigger=PropertyChanged}"
-                                                          DisplayMemberPath="Name"
-                                                          Height="26"
-                                                          VerticalContentAlignment="Center"
-                                                          FontSize="11" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                    <!-- Status -->
-                                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*" IsReadOnly="True" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
-                    </Border>
-
-                    <!-- Bottom Apply Button -->
-                    <Button Grid.Row="2"
-                            Content="🚀 ÁP DỤNG CHUẨN HÓA VIEW TEMPLATE &amp; BỘ LỌC"
-                            Command="{Binding ApplyTab4TemplatesCommand}"
                             Style="{DynamicResource PrimaryButton}"
                             MinHeight="38"
                             FontSize="12"
