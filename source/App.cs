@@ -13,37 +13,15 @@ public class App : IExternalApplication
 
         var panel = application.CreateRibbonPanel(tabName, "BIM TOOL");
 
-        var workingViewButton = new PushButtonData(
-            "DSConsWorkingView",
-            "Working\nViews",
+        var createViewWorkingButton = new PushButtonData(
+            "DSConsCreateViewWorking",
+            "Creat view\nWorking",
             typeof(App).Assembly.Location,
-            "DSCons.Revit.Starter.Commands.WorkingViewsCommand")
+            "DSCons.Revit.Starter.Commands.CreateViewWorkingCommand")
         {
-            ToolTip = "Quản lý và tạo các View làm việc cá nhân (Mặt bằng & 3D View) độc lập với hồ sơ dự án.",
-            Image = SemanticRibbonIconFactory.Create("view3d", false),
-            LargeImage = SemanticRibbonIconFactory.Create("view3d", true)
-        };
-
-        var batchTagButton = new PushButtonData(
-            "DSConsBatchTag",
-            "Batch\nTag",
-            typeof(App).Assembly.Location,
-            "DSCons.Revit.Starter.Commands.BatchTagCommand")
-        {
-            ToolTip = "Ghi chú tag kích thước hàng loạt cho các đoạn ống gió trong View hiện hành.",
-            Image = SemanticRibbonIconFactory.Create("tag", false),
-            LargeImage = SemanticRibbonIconFactory.Create("tag", true)
-        };
-
-        var alignTagsButton = new PushButtonData(
-            "DSConsAlignTags",
-            "Align\nTags",
-            typeof(App).Assembly.Location,
-            "DSCons.Revit.Starter.Commands.AlignTagsCommand")
-        {
-            ToolTip = "Căn chỉnh các thẻ ghi chú (Tag) đã chọn thẳng hàng theo phương ngang hoặc phương dọc.",
-            Image = SemanticRibbonIconFactory.Create("align", false),
-            LargeImage = SemanticRibbonIconFactory.Create("align", true)
+            ToolTip = "Khởi tạo View làm việc 3-trong-1: Tự động tạo Mặt Bằng MEP (13 hệ kỹ thuật), Mặt Cắt MEP (Ver/Hoz né Grid, kéo qua mọi tầng) và View 3D theo từng tầng (đóng khung Section Box).",
+            Image = SemanticRibbonIconFactory.Create("sheet", false),
+            LargeImage = SemanticRibbonIconFactory.Create("sheet", true)
         };
 
         var cleanupButton = new PushButtonData(
@@ -53,8 +31,8 @@ public class App : IExternalApplication
             "DSCons.Revit.Starter.Commands.ModelCleanupCommand")
         {
             ToolTip = "Dọn dẹp file bàn giao & Kiểm toán mô hình: Xóa CAD/Revit links, kiểm tra trùng Mark, xuất báo cáo Warnings, triệt tiêu warnings và Purge unused.",
-            Image = SemanticRibbonIconFactory.Create("cleanup", false),
-            LargeImage = SemanticRibbonIconFactory.Create("cleanup", true)
+            Image = SemanticRibbonIconFactory.Create("filter", false),
+            LargeImage = SemanticRibbonIconFactory.Create("filter", true)
         };
 
         var aboutButton = new PushButtonData(
@@ -68,9 +46,7 @@ public class App : IExternalApplication
             LargeImage = SemanticRibbonIconFactory.Create("about", true)
         };
 
-        panel.AddItem(workingViewButton);
-        panel.AddItem(batchTagButton);
-        panel.AddItem(alignTagsButton);
+        panel.AddItem(createViewWorkingButton);
         panel.AddItem(cleanupButton);
         panel.AddItem(aboutButton);
 

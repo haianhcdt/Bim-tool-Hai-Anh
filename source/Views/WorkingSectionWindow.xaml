@@ -1,0 +1,270 @@
+﻿<Window x:Class="DSCons.Revit.Starter.Views.WorkingSectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BIM TOOL — Tạo Mặt Cắt MEP Làm Việc"
+        Width="680"
+        Height="560"
+        MinWidth="600"
+        MinHeight="500"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#F8FAFC"
+        FontFamily="Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- 0: Banner Header -->
+            <RowDefinition Height="78" />
+            <!-- 1: Body Content -->
+            <RowDefinition Height="*" />
+            <!-- 2: Footer & Actions -->
+            <RowDefinition Height="64" />
+        </Grid.RowDefinitions>
+
+        <!-- 0: BANNER HEADER -->
+        <Border Grid.Row="0" Background="{DynamicResource AccentBrush}" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="BIM TOOL — MEP AUTOMATION SUITE"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Opacity="0.85" />
+                    <TextBlock Text="Tạo Mặt Cắt MEP Làm Việc (Working Sections)"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="0,2,0,1" />
+                    <TextBlock Text="{Binding ActiveViewName, StringFormat='Mặt bằng hiện hành: {0}'}"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
+                               FontSize="11"
+                               Opacity="0.9" />
+                </StackPanel>
+
+                <Border Grid.Column="1"
+                        Background="#20FFFFFF"
+                        CornerRadius="4"
+                        Padding="8,4"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="Far Clip: 1000 mm"
+                               Foreground="White"
+                               FontSize="11"
+                               FontWeight="Bold" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 1: BODY CONTENT -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="18,14">
+            <StackPanel>
+                <!-- CARD 1: CHỌN USER & TÊN VIEW -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="16,12"
+                        Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="1. NGƯỜI DÙNG PHỤ TRÁCH (USER SELECTION)"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="#64748B"
+                                   Margin="0,0,0,8" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Chọn User:"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1E293B"
+                                       Margin="0,0,12,0" />
+
+                            <ComboBox Grid.Column="1"
+                                      ItemsSource="{Binding Users}"
+                                      SelectedItem="{Binding SelectedUser}"
+                                      Height="32"
+                                      FontSize="12"
+                                      FontWeight="SemiBold"
+                                      VerticalContentAlignment="Center" />
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Border Background="#F1F5F9" CornerRadius="4" Padding="8,4" Margin="0,0,6,0">
+                                    <TextBlock Text="{Binding TargetVerName, StringFormat='Dọc: {0}'}"
+                                               FontFamily="Consolas"
+                                               FontSize="11"
+                                               FontWeight="Bold"
+                                               Foreground="#1466B8" />
+                                </Border>
+                                <Border Background="#F1F5F9" CornerRadius="4" Padding="8,4">
+                                    <TextBlock Text="{Binding TargetHozName, StringFormat='Ngang: {0}'}"
+                                               FontFamily="Consolas"
+                                               FontSize="11"
+                                               FontWeight="Bold"
+                                               Foreground="#1466B8" />
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- CARD 2: TÙY CHỌN LOẠI MẶT CẮT CẦN TẠO -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="16,12"
+                        Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="2. CHỌN LOẠI MẶT CẮT CẦN KHỞI TẠO"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="#64748B"
+                                   Margin="0,0,0,10" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Checkbox Ver -->
+                            <Border Grid.Column="0"
+                                    Background="#F8FAFC"
+                                    BorderBrush="#E2E8F0"
+                                    BorderThickness="1"
+                                    CornerRadius="6"
+                                    Padding="12,10"
+                                    Margin="0,0,6,0">
+                                <CheckBox IsChecked="{Binding CreateVer}" VerticalContentAlignment="Center">
+                                    <StackPanel Margin="6,0,0,0">
+                                        <TextBlock Text="Mặt cắt Dọc (Vertical)"
+                                                   FontWeight="Bold"
+                                                   FontSize="12"
+                                                   Foreground="#0F172A" />
+                                        <TextBlock Text="{Binding TargetVerName, StringFormat='Tên View: {0} (Cắt dọc theo trục Y)'}"
+                                                   FontSize="11"
+                                                   Foreground="#64748B"
+                                                   Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </CheckBox>
+                            </Border>
+
+                            <!-- Checkbox Hoz -->
+                            <Border Grid.Column="1"
+                                    Background="#F8FAFC"
+                                    BorderBrush="#E2E8F0"
+                                    BorderThickness="1"
+                                    CornerRadius="6"
+                                    Padding="12,10"
+                                    Margin="6,0,0,0">
+                                <CheckBox IsChecked="{Binding CreateHoz}" VerticalContentAlignment="Center">
+                                    <StackPanel Margin="6,0,0,0">
+                                        <TextBlock Text="Mặt cắt Ngang (Horizontal)"
+                                                   FontWeight="Bold"
+                                                   FontSize="12"
+                                                   Foreground="#0F172A" />
+                                        <TextBlock Text="{Binding TargetHozName, StringFormat='Tên View: {0} (Cắt ngang theo trục X)'}"
+                                                   FontSize="11"
+                                                   Foreground="#64748B"
+                                                   Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </CheckBox>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- CARD 3: THÔNG SỐ KỸ THUẬT CHUẨN HÓA -->
+                <Border Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="16,12">
+                    <StackPanel>
+                        <TextBlock Text="3. THÔNG SỐ HÌNH HỌC CHUẨN HÓA (SPECIFICATIONS)"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="#64748B"
+                                   Margin="0,0,0,8" />
+
+                        <Grid Margin="0,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="• Chiều sâu nhìn (Far Clip):" FontWeight="SemiBold" FontSize="11" Foreground="#334155" Margin="0,2" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="1000 mm (Cố định chuẩn kỹ thuật)" FontSize="11" Foreground="#0F172A" Margin="0,2" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="• Chiều dài đường cắt:" FontWeight="SemiBold" FontSize="11" Foreground="#334155" Margin="0,2" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="Căn giữa công trình &amp; Dài hơn Grid dài nhất (+3000 mm)" FontSize="11" Foreground="#0F172A" Margin="0,2" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="• Chiều cao mặt cắt:" FontWeight="SemiBold" FontSize="11" Foreground="#334155" Margin="0,2" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Kéo qua TẤT CẢ các tầng (Từ hầm sâu nhất đến tum/mái)" FontSize="11" FontWeight="SemiBold" Foreground="#15803D" Margin="0,2" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="• Thuật toán né Grid:" FontWeight="SemiBold" FontSize="11" Foreground="#334155" Margin="0,2" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="Tự động dịch chuyển +500 mm nếu trùng hoặc sát Grid" FontSize="11" Foreground="#0F172A" Margin="0,2" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 2: FOOTER STATUS & ACTIONS -->
+        <Border Grid.Row="2"
+                Background="White"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="18,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding StatusMessage}"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           Foreground="#475569"
+                           TextTrimming="CharacterEllipsis" />
+
+                <Button Grid.Column="1"
+                        Content="Đóng"
+                        Command="{Binding CloseCommand}"
+                        Padding="16,6"
+                        MinHeight="36"
+                        FontSize="11"
+                        Margin="0,0,8,0" />
+
+                <Button Grid.Column="2"
+                        Content="🚀 TẠO MẶT CẮT LÀM VIỆC"
+                        Command="{Binding ExecuteCommand}"
+                        IsEnabled="{Binding CanExecute}"
+                        Style="{DynamicResource PrimaryButton}"
+                        Padding="20,6"
+                        MinHeight="36"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Cursor="Hand" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

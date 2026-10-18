@@ -1,4 +1,4 @@
-﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using DSCons.Revit.Starter.Infrastructure;
@@ -12,15 +12,12 @@ public class HelloRevitCommand : IExternalCommand
     {
         try
         {
-            var documentTitle = commandData.Application.ActiveUIDocument?.Document.Title ?? "khA'ng cA3 model mY";
-            TaskDialog.Show("DSCons Revit API Kit", $"Xin chAo! Kit `A chy thAnh cA'ng trAn: {documentTitle}");
-            Log.Write("Hello Revit executed successfully.");
-            return Result.Succeeded;
+            return new BatchFloorPlanCommand().Execute(commandData, ref message, elements);
         }
         catch (System.Exception exception)
         {
-            Log.Write(exception.ToString());
-            message = "Hello Revit failed. Check the DSCons log file and copy the exact error to your AI agent.";
+            Log.Write("HelloRevitCommand delegation error: " + exception);
+            message = "Batch Floor Plan Generator failed. " + exception.Message;
             return Result.Failed;
         }
     }

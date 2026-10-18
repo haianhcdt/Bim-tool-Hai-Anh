@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>BIM TOOL - Revit 2024</Name>
+    <Assembly>BIMTool\DSCons.Revit.Starter.dll</Assembly>
+    <AddInId>A24532C5-ACDE-4946-8414-D8EE406FA589</AddInId>
+    <FullClassName>DSCons.Revit.Starter.App</FullClassName>
+    <VendorId>DSCS</VendorId>
+    <VendorDescription>Nguyá»…n TÃ´n Háº£i Anh - BIM Manager (BVN)</VendorDescription>
+  </AddIn>
+</RevitAddIns>

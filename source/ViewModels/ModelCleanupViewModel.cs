@@ -1,4 +1,3 @@
-﻿using System.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -71,7 +70,6 @@ public sealed class ModelCleanupViewModel : ViewModelBase
         OpenRevitPurgeCommand = new RelayCommand(_ => OpenRevitPurge(), _ => !IsBusy);
         ExecuteAllCleanupCommand = new RelayCommand(_ => ExecuteAllCleanup(), _ => CanExecuteAllCleanup);
         OpenDuplicateMarkAuditCommand = new RelayCommand(_ => OpenDuplicateMarkAudit(), _ => !IsBusy);
-        ExportWarningsReportCommand = new RelayCommand(_ => ExportWarningsReport(), _ => !IsBusy);
         CloseCommand = new RelayCommand(_ => Close());
 
         // Quét số liệu ban đầu
@@ -212,7 +210,6 @@ public sealed class ModelCleanupViewModel : ViewModelBase
     public RelayCommand OpenRevitPurgeCommand { get; }
     public RelayCommand ExecuteAllCleanupCommand { get; }
     public RelayCommand OpenDuplicateMarkAuditCommand { get; }
-    public RelayCommand ExportWarningsReportCommand { get; }
     public RelayCommand CloseCommand { get; }
 
     public event Action? RequestClose;
@@ -231,7 +228,6 @@ public sealed class ModelCleanupViewModel : ViewModelBase
         ResolveAllWarningsCommand.RaiseCanExecuteChanged();
         ToggleWarningSuppressorCommand.RaiseCanExecuteChanged();
         OpenDuplicateMarkAuditCommand.RaiseCanExecuteChanged();
-        ExportWarningsReportCommand.RaiseCanExecuteChanged();
         PurgeUnusedCommand.RaiseCanExecuteChanged();
         OpenRevitPurgeCommand.RaiseCanExecuteChanged();
         ExecuteAllCleanupCommand.RaiseCanExecuteChanged();
@@ -816,67 +812,6 @@ public sealed class ModelCleanupViewModel : ViewModelBase
         }
     }
 
-    /// <summary>
-    /// Xuat toan bo bao cao kiem toan Warnings chi tiet ra file text va mo truc tiep
-    /// </summary>
-    public void ExportWarningsReport()
-    {
-        try
-        {
-            var warnings = _doc.GetWarnings();
-            var totalCount = warnings.Count;
-
-            var groupedWarnings = warnings
-                .GroupBy(w => w.GetDescriptionText())
-                .OrderByDescending(g => g.Count())
-                .ToList();
-
-            var reportBuilder = new StringBuilder();
-            reportBuilder.AppendLine("================================================================================");
-            reportBuilder.AppendLine($"BAO CAO KIEM TOAN CANH BAO (WARNINGS AUDIT REPORT) - REVIT {_doc.Application.VersionNumber}");
-            reportBuilder.AppendLine($"Mo hinh: {_doc.Title}");
-            reportBuilder.AppendLine($"Duong dan: {_doc.PathName}");
-            reportBuilder.AppendLine($"Thoi gian quet: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-            reportBuilder.AppendLine($"Tong so canh bao (Warnings): {totalCount}");
-            reportBuilder.AppendLine($"Tong so nhom loi: {groupedWarnings.Count}");
-            reportBuilder.AppendLine($"Trang thai Bo loc An Canh Bao: {(GlobalWarningSuppressorManager.IsEnabled ? "DANG BAT" : "DANG TAT")}");
-            reportBuilder.AppendLine("================================================================================");
-            reportBuilder.AppendLine();
-
-            reportBuilder.AppendLine("--- BANG TONG HOP THEO NHOM LOI ---");
-            int rank = 1;
-            foreach (var group in groupedWarnings)
-            {
-                reportBuilder.AppendLine($"{rank++}. [{group.Count()} vi tri] {group.Key}");
-            }
-            reportBuilder.AppendLine();
-
-            reportBuilder.AppendLine("--- CHI TIET CAC DOI TUONG BI CANH BAO ---");
-            int itemIndex = 1;
-            foreach (var w in warnings)
-            {
-                var failingIds = w.GetFailingElements();
-                var idStrings = failingIds.Select(id => id.ToString()).ToList();
-                var idListText = idStrings.Count > 0 ? string.Join(", ", idStrings) : "Khong co ElementId cu the";
-
-                reportBuilder.AppendLine($"[#{itemIndex++}] {w.GetDescriptionText()}");
-                reportBuilder.AppendLine($"    ElementIds lien quan: {idListText}");
-            }
-
-            var reportDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DSCons", "Reports");
-            Directory.CreateDirectory(reportDirectory);
-            var reportFilePath = Path.Combine(reportDirectory, $"Warnings_Audit_{_doc.Title}_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
-            File.WriteAllText(reportFilePath, reportBuilder.ToString(), Encoding.UTF8);
-
-            Process.Start(new ProcessStartInfo(reportFilePath) { UseShellExecute = true });
-            StatusMessage = $"Da xuat bao cao canh bao: {Path.GetFileName(reportFilePath)}";
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = "Loi khi xuat bao cao Warnings: " + ex.Message;
-            Log.Write("ExportWarningsReport error: " + ex);
-        }
-    }
     /// <summary>
     /// Purge Unused Elements tự động (Multi-pass)
     /// </summary>

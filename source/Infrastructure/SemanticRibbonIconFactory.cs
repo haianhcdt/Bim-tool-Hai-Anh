@@ -81,6 +81,31 @@ public static class SemanticRibbonIconFactory
                 dc.DrawLine(Pen(accent, 1.2), new Point(8, 22.5), new Point(11, 22.5));
                 dc.DrawEllipse(accent, null, new Point(14, 22.5), 1.2, 1.2);
             }
+            else if (string.Equals(icon, "section", StringComparison.OrdinalIgnoreCase) || string.Equals(icon, "cut", StringComparison.OrdinalIgnoreCase))
+            {
+                // Duong mat cat trung tam
+                dc.DrawLine(Pen(accent, 2), new Point(4, 16), new Point(28, 16));
+                
+                // Mui ten huong nhin o 2 dau
+                // Dau trai
+                dc.DrawEllipse(accent, null, new Point(7, 16), 3, 3);
+                DrawPolyline(dc, accent, 1.8, new Point(4, 16), new Point(7, 10), new Point(10, 16));
+                
+                // Dau phai
+                dc.DrawEllipse(accent, null, new Point(25, 16), 3, 3);
+                DrawPolyline(dc, accent, 1.8, new Point(22, 16), new Point(25, 10), new Point(28, 16));
+                
+                // Khung mat cat bao quanh nhe
+                dc.DrawRectangle(null, Pen(Brush("#B5DCE5"), 1), new Rect(9, 7, 14, 18));
+            }
+            else if (string.Equals(icon, "sheet", StringComparison.OrdinalIgnoreCase) || string.Equals(icon, "plan", StringComparison.OrdinalIgnoreCase))
+            {
+                DrawPolyline(dc, accent, 2, new Point(7, 6), new Point(20, 6), new Point(25, 11), new Point(25, 26), new Point(7, 26), new Point(7, 6));
+                DrawPolyline(dc, accent, 1.5, new Point(20, 6), new Point(20, 11), new Point(25, 11));
+                dc.DrawLine(Pen(accent, 1.2), new Point(10, 13), new Point(17, 13));
+                dc.DrawLine(Pen(accent, 1.2), new Point(10, 17), new Point(22, 17));
+                dc.DrawLine(Pen(accent, 1.2), new Point(10, 21), new Point(19, 21));
+            }
             else
             {
                 dc.DrawRectangle(null, Pen(accent, 2), new Rect(9, 9, 14, 14));

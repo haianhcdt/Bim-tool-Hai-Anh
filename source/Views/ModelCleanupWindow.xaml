@@ -1,4 +1,4 @@
-﻿<Window x:Class="DSCons.Revit.Starter.Views.ModelCleanupWindow"
+<Window x:Class="DSCons.Revit.Starter.Views.ModelCleanupWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{Binding WindowTitle}"
@@ -191,7 +191,7 @@
                     </Grid>
                 </Border>
 
-                <!-- CARD 4: KIỂM TOÁN & TRIỆT TIÊU CẢNH BÁO (WARNINGS AUDIT) -->
+                <!-- CARD 4: TRIỆT TIÊU WARNINGS -->
                 <Border Background="White"
                         BorderBrush="{DynamicResource BorderBrush}"
                         BorderThickness="1"
@@ -204,42 +204,34 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="4. BỘ LỌC, KIỂM TOÁN &amp; TRIỆT TIÊU CẢNH BÁO (WARNINGS AUDIT)" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="4. BỘ LỌC &amp; TRIỆT TIÊU CẢNH BÁO (WARNINGS)" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
                             <TextBlock Text="{Binding WarningSummary}" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,3,0,0" />
                             <TextBlock Text="Bảo toàn 100% ống, phụ kiện, thiết bị và hệ thống MEP trong mô hình."
                                        FontSize="11" Foreground="#15803D" FontWeight="SemiBold" Margin="0,2,0,0" />
                             <TextBlock Text="{Binding WarningSuppressorStatusText}" FontSize="10" Foreground="#64748B" Margin="0,2,0,0" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Content="🔍 Bảng Trùng Mark"
+                            <Button Content="🔍 Bảng Kiểm Tra Trùng Mark"
                                     Command="{Binding OpenDuplicateMarkAuditCommand}"
-                                    Padding="8,6"
+                                    Padding="10,6"
                                     MinHeight="34"
                                     FontSize="11"
                                     FontWeight="SemiBold"
-                                    Margin="0,0,5,0"
+                                    Margin="0,0,6,0"
                                     ToolTip="Mở bảng thống kê chi tiết toàn bộ các cấu kiện đang trùng thông số Mark trong mô hình." />
-                            <Button Content="📄 Xuất Báo Cáo"
-                                    Command="{Binding ExportWarningsReportCommand}"
-                                    Padding="8,6"
-                                    MinHeight="34"
-                                    FontSize="11"
-                                    FontWeight="SemiBold"
-                                    Margin="0,0,5,0"
-                                    ToolTip="Xuất toàn bộ danh sách cảnh báo chi tiết theo từng Element ID ra file text và mở trong Notepad." />
-                            <Button Content="🛡️ Mờ nút Warnings"
+                            <Button Content="🛡️ Mờ nút Warnings (Về 0)"
                                     Command="{Binding ResolveAllWarningsCommand}"
                                     IsEnabled="{Binding CanResolveWarnings}"
                                     Style="{DynamicResource PrimaryButton}"
-                                    Padding="8,6"
+                                    Padding="10,6"
                                     MinHeight="34"
                                     FontSize="11"
                                     FontWeight="Bold"
-                                    Margin="0,0,5,0"
+                                    Margin="0,0,6,0"
                                     ToolTip="Triệt tiêu 100% cảnh báo tính toán MEP và trùng mã Mark, làm mờ icon Warnings trên tab Manage mà không xóa bất kỳ đối tượng nào." />
                             <Button Content="Ẩn Popup"
                                     Command="{Binding ToggleWarningSuppressorCommand}"
-                                    Padding="6,6"
+                                    Padding="8,6"
                                     MinHeight="34"
                                     FontSize="11"
                                     ToolTip="Bật/Tắt chế độ tự động triệt tiêu popup warning khi vẽ." />
