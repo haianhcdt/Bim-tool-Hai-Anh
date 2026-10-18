@@ -4,7 +4,7 @@
 ; ==============================================================================
 
 #define MyAppName "BIM TOOL Multi-Version Suite"
-#define MyAppVersion "1.5.1"
+#define MyAppVersion "1.5.2"
 #define MyAppPublisher "Nguyễn Tôn Hải Anh (BVN)"
 #define MyAppId "{{A24532C5-ACDE-4946-8414-D8EE406FA589}"
 
